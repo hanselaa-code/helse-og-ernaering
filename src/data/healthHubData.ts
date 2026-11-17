@@ -1,3 +1,4 @@
+import { getHealthImage } from './images';
 import type { CompetenceGoal, CompetenceGoalId, ThemeId } from './types';
 
 export const COMPETENCE_GOALS: Record<CompetenceGoalId, CompetenceGoal> = {
@@ -18,13 +19,18 @@ export const COMPETENCE_GOALS: Record<CompetenceGoalId, CompetenceGoal> = {
 };
 
 export const HEALTH_CENTER_NODE = {
-  title: 'Helse og ernæring',
+  title: 'HELSE & ERNÆRING',
   dropdownTitle: 'Helse og ernæring – Tankekart',
   dropdownBadge: '7 moduler • Vg1 Naturfag',
   subtitle:
     'Fra næringsstoffer, fordøyelse og celleånding til trening, bærekraftig kosthold og kildekritikk',
   description:
     'Velg et undertema i tankekartet for å utforske kroppens kjemi, energiomsetning, trening, kostholdsråd og kritisk vurdering av helsepåstander.',
+  cx: 540,
+  cy: 390,
+  r: 120,
+  haloR: 136,
+  imageUrl: getHealthImage('hub_helse.jpg'),
 };
 
 export interface HubNodeConfig {
@@ -35,12 +41,13 @@ export interface HubNodeConfig {
   competenceGoals: CompetenceGoalId[];
   stepCount: number;
   accentHex: string;
-  badgeClass: string;
-  /** Position in 1000x620 SVG viewBox */
-  x: number;
-  y: number;
+  cx: number;
+  cy: number;
+  r: number;
+  imageUrl: string;
 }
 
+// 7 satellites arranged in a balanced ring around center (540, 390)
 export const HEALTH_HUB_NODES: HubNodeConfig[] = [
   {
     id: 'naeringsstoffer',
@@ -51,9 +58,10 @@ export const HEALTH_HUB_NODES: HubNodeConfig[] = [
     competenceGoals: ['KM1'],
     stepCount: 6,
     accentHex: '#10B981',
-    badgeClass: 'text-emerald-300 border-emerald-400/40 bg-emerald-500/15',
-    x: 205,
-    y: 135,
+    cx: 295,
+    cy: 165,
+    r: 86,
+    imageUrl: getHealthImage('hub_naeringsstoffer.jpg'),
   },
   {
     id: 'fordoyelsen',
@@ -64,73 +72,129 @@ export const HEALTH_HUB_NODES: HubNodeConfig[] = [
     competenceGoals: ['KM1'],
     stepCount: 6,
     accentHex: '#F59E0B',
-    badgeClass: 'text-amber-300 border-amber-400/40 bg-amber-500/15',
-    x: 500,
-    y: 95,
+    cx: 540,
+    cy: 112,
+    r: 86,
+    imageUrl: getHealthImage('hub_fordoyelsen.jpg'),
   },
   {
     id: 'celleanding',
-    title: 'Omsetning & celleånding',
+    title: 'Celleånding',
     shortTag: 'Glukose + O₂ → ATP',
     description:
       'Hvordan cellene frigjør energi fra næringsstoffene i mitokondriene og lager ATP.',
     competenceGoals: ['KM1'],
     stepCount: 5,
     accentHex: '#38BDF8',
-    badgeClass: 'text-sky-300 border-sky-400/40 bg-sky-500/15',
-    x: 795,
-    y: 135,
+    cx: 790,
+    cy: 170,
+    r: 86,
+    imageUrl: getHealthImage('hub_celleanding.jpg'),
   },
   {
     id: 'vaeskebalanse',
-    title: 'Væskebalanse, aerob & anaerob',
-    shortTag: 'Vann, salt & melkesyre',
+    title: 'Væskebalanse',
+    shortTag: 'Aerob, anaerob & salt',
     description:
       'Osmose, elektrolytter og forskjellen på aerob og anaerob forbrenning ved ulik intensitet.',
     competenceGoals: ['KM1', 'KM2'],
     stepCount: 5,
     accentHex: '#06B6D4',
-    badgeClass: 'text-cyan-300 border-cyan-400/40 bg-cyan-500/15',
-    x: 840,
-    y: 355,
+    cx: 875,
+    cy: 415,
+    r: 86,
+    imageUrl: getHealthImage('hub_vaeskebalanse.jpg'),
   },
   {
     id: 'trening',
     title: 'Trening',
-    shortTag: 'Tilpasning & restitusjon',
+    shortTag: 'Tilpasning & hvile',
     description:
       'Superkompensasjon, utholdenhet vs. styrke, hjerte- og lungekapasitet, søvn og restitusjon.',
     competenceGoals: ['KM1', 'KM2'],
     stepCount: 5,
     accentHex: '#F43F5E',
-    badgeClass: 'text-rose-300 border-rose-400/40 bg-rose-500/15',
-    x: 685,
-    y: 525,
+    cx: 705,
+    cy: 635,
+    r: 86,
+    imageUrl: getHealthImage('hub_trening.jpg'),
   },
   {
     id: 'kosthold',
-    title: 'Generell helse & kosthold',
+    title: 'Helse & kosthold',
     shortTag: 'Kostråd & bærekraft',
     description:
       'Variert kosthold, energibalanse, tallerkenmodellen, helseperspektiv og klimaavtrykk.',
     competenceGoals: ['KM1', 'KM2'],
     stepCount: 6,
     accentHex: '#22C55E',
-    badgeClass: 'text-green-300 border-green-400/40 bg-green-500/15',
-    x: 315,
-    y: 525,
+    cx: 375,
+    cy: 635,
+    r: 86,
+    imageUrl: getHealthImage('hub_kosthold.jpg'),
   },
   {
     id: 'kildekritikk',
-    title: 'Kildekritikk & kostholdsråd',
+    title: 'Kildekritikk',
     shortTag: 'Evidens vs. myter',
     description:
       'Hvordan vurdere påstander i sosiale medier, forskning, interessekonflikter og TONE-prinsippet.',
     competenceGoals: ['KM2'],
     stepCount: 5,
     accentHex: '#A855F7',
-    badgeClass: 'text-purple-300 border-purple-400/40 bg-purple-500/15',
-    x: 160,
-    y: 355,
+    cx: 205,
+    cy: 415,
+    r: 86,
+    imageUrl: getHealthImage('hub_kildekritikk.jpg'),
+  },
+];
+
+export const HEALTH_DASHED_ARCS: {
+  id: string;
+  from: ThemeId;
+  to: ThemeId;
+  d: string;
+}[] = [
+  {
+    id: 'arc-naer-ford',
+    from: 'naeringsstoffer',
+    to: 'fordoyelsen',
+    d: 'M 365 110 Q 420 82 465 95',
+  },
+  {
+    id: 'arc-ford-celle',
+    from: 'fordoyelsen',
+    to: 'celleanding',
+    d: 'M 615 95 Q 675 88 725 120',
+  },
+  {
+    id: 'arc-celle-vaesk',
+    from: 'celleanding',
+    to: 'vaeskebalanse',
+    d: 'M 852 232 Q 892 290 888 335',
+  },
+  {
+    id: 'arc-vaesk-tren',
+    from: 'vaeskebalanse',
+    to: 'trening',
+    d: 'M 848 492 Q 825 568 770 605',
+  },
+  {
+    id: 'arc-tren-kost',
+    from: 'trening',
+    to: 'kosthold',
+    d: 'M 620 658 Q 540 682 460 658',
+  },
+  {
+    id: 'arc-kost-kilde',
+    from: 'kosthold',
+    to: 'kildekritikk',
+    d: 'M 308 602 Q 248 565 225 495',
+  },
+  {
+    id: 'arc-kilde-naer',
+    from: 'kildekritikk',
+    to: 'naeringsstoffer',
+    d: 'M 192 332 Q 195 258 242 218',
   },
 ];

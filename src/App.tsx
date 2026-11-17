@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useState } from 'react';
 import { HealthMindMap } from './components/HealthMindMap';
+import { ImageLightbox } from './components/ImageLightbox';
 import { InfoPanel } from './components/InfoPanel';
 import { ModuleExplorer } from './components/ModuleExplorer';
 import { QrShareModal } from './components/QrShareModal';
@@ -13,7 +14,7 @@ import {
   THEME_LIST,
   THEMES,
 } from './data/themes';
-import type { AppView, ThemeId } from './data/types';
+import type { AppView, HealthNodeData, ThemeId } from './data/types';
 
 interface ThemeProgressState {
   currentStepIndex: number;
@@ -51,6 +52,7 @@ export function App() {
 
   const [isQuizOpen, setIsQuizOpen] = useState(false);
   const [isQrOpen, setIsQrOpen] = useState(false);
+  const [lightboxNode, setLightboxNode] = useState<HealthNodeData | null>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
 
   const isMindMap = activeView === 'oversikt';
@@ -266,7 +268,11 @@ export function App() {
             </div>
 
             <div className="lg:col-span-6 xl:col-span-5 min-h-[420px] lg:min-h-0">
-              <InfoPanel activeTheme={activeTheme} node={activeNode} />
+              <InfoPanel
+                activeTheme={activeTheme}
+                node={activeNode}
+                onOpenLightbox={setLightboxNode}
+              />
             </div>
           </main>
 
@@ -292,6 +298,11 @@ export function App() {
       />
 
       <QrShareModal isOpen={isQrOpen} onClose={() => setIsQrOpen(false)} />
+
+      <ImageLightbox
+        node={lightboxNode}
+        onClose={() => setLightboxNode(null)}
+      />
     </div>
   );
 }

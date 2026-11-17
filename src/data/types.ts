@@ -42,6 +42,8 @@ export interface HealthNodeData {
   terms: string[];
   discussionQuestion?: string;
   accentColor: string;
+  image?: string;
+  imageCaption?: string;
 }
 
 export interface McqQuestionItem {
