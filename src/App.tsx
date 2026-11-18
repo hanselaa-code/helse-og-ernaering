@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { DigestiveBodyExplorer } from './components/DigestiveBodyExplorer';
 import { HealthMindMap } from './components/HealthMindMap';
 import { ImageLightbox } from './components/ImageLightbox';
 import { InfoPanel } from './components/InfoPanel';
@@ -259,13 +260,23 @@ export function App() {
         <>
           <main className="flex-1 min-h-0 px-3 sm:px-4 lg:px-6 py-3 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
             <div className="lg:col-span-6 xl:col-span-7 min-h-[340px] lg:min-h-0">
-              <ModuleExplorer
-                activeTheme={activeTheme}
-                currentStepIndex={currentStepIndex}
-                unlockedStepIndex={unlockedStepIndex}
-                showAllSteps={showAllSteps}
-                onSelectStep={jumpToStep}
-              />
+              {activeTheme.id === 'fordoyelsen' ? (
+                <DigestiveBodyExplorer
+                  activeTheme={activeTheme}
+                  currentStepIndex={currentStepIndex}
+                  unlockedStepIndex={unlockedStepIndex}
+                  showAllSteps={showAllSteps}
+                  onSelectStep={jumpToStep}
+                />
+              ) : (
+                <ModuleExplorer
+                  activeTheme={activeTheme}
+                  currentStepIndex={currentStepIndex}
+                  unlockedStepIndex={unlockedStepIndex}
+                  showAllSteps={showAllSteps}
+                  onSelectStep={jumpToStep}
+                />
+              )}
             </div>
 
             <div className="lg:col-span-6 xl:col-span-5 min-h-[420px] lg:min-h-0">
