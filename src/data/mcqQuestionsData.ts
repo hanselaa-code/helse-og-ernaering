@@ -134,6 +134,20 @@ export const FORDOYELSEN_MCQ_QUESTIONS: McqQuestionItem[] = [
       'Tykktarmen gjenvinner vann og elektrolytter slik at vi ikke dehydrerer, og tarmfloraen lager bl.a. vitamin K.',
     relatedStepId: 'ford-6-tykktarm',
   },
+  {
+    id: 'ford-q6',
+    question: 'Hvilken av disse oppgavene utføres IKKE av leveren?',
+    options: [
+      'Produksjon av galle og lagring av glykogen',
+      'Avgiftning av alkohol og medisiner',
+      'Produksjon av saltsyre (HCl) til magesaften',
+      'Lagring av jern og fettløselige vitaminer (A, D, E, K)',
+    ],
+    correctIndex: 2,
+    explanation:
+      'Saltsyre (HCl) lages i magesekkens kjertelceller. Leveren produserer galle, lagrer glykogen og vitaminer/jern, og renser blodet fra tarmen.',
+    relatedStepId: 'ford-lever',
+  },
 ];
 
 export const CELLEANDING_MCQ_QUESTIONS: McqQuestionItem[] = [

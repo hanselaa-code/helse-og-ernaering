@@ -83,9 +83,9 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     hash: '#fordoyelsen',
     title: 'Fordøyelsen – Fra matbit til næring i blodet',
     dropdownTitle: '2. Fordøyelsen',
-    dropdownBadge: 'Fordøyelseskanalen • 6 steg',
+    dropdownBadge: 'Fordøyelseskanalen • 7 steg',
     dropdownDescription:
-      'Følg maten gjennom munnhule, spiserør, magesekk, tolvfingertarm, tynntarm og tykktarm – med enzymer, galle og tarmtotter.',
+      'Følg maten gjennom munnhule, spiserør, magesekk, lever, tolvfingertarm, tynntarm og tykktarm – med enzymer, galle og tarmtotter.',
     subtitle: 'Mekanisk og kjemisk nedbrytning, enzymer og opptak (Vg1 Naturfag)',
     stepWord: 'Steg',
     showAllLabel: 'Vis hele fordøyelseskanalen',
@@ -105,9 +105,10 @@ export const THEMES: Record<ThemeId, ThemeConfig> = {
     quizShortcuts: [
       { label: 'Steg 1: Munnhule & amylase', idx: 0 },
       { label: 'Steg 3: Magesekk & pepsin', idx: 2 },
-      { label: 'Steg 4: Tolvfingertarm & galle', idx: 3 },
-      { label: 'Steg 5: Tynntarm & tarmtotter', idx: 4 },
-      { label: 'Steg 6: Tykktarm & tarmflora', idx: 5 },
+      { label: 'Steg 4: Lever & galle', idx: 3 },
+      { label: 'Steg 5: Tolvfingertarm & bukspytt', idx: 4 },
+      { label: 'Steg 6: Tynntarm & tarmtotter', idx: 5 },
+      { label: 'Steg 7: Tykktarm & tarmflora', idx: 6 },
     ],
   },
   celleanding: {

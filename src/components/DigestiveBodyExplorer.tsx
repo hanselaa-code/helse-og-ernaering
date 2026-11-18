@@ -30,7 +30,7 @@ const DIGESTIVE_LAYOUT: DigestiveLayoutNode[] = [
   {
     stepIndex: 0, // Munnhule
     x: 240,
-    y: 200,
+    y: 175,
     anchorX: 825,
     anchorY: 165,
     side: 'left',
@@ -39,7 +39,7 @@ const DIGESTIVE_LAYOUT: DigestiveLayoutNode[] = [
   {
     stepIndex: 1, // Spiserør
     x: 1410,
-    y: 245,
+    y: 240,
     anchorX: 825,
     anchorY: 285,
     side: 'right',
@@ -48,36 +48,45 @@ const DIGESTIVE_LAYOUT: DigestiveLayoutNode[] = [
   {
     stepIndex: 2, // Magesekk
     x: 1410,
-    y: 505,
+    y: 490,
     anchorX: 865,
-    anchorY: 455,
+    anchorY: 465,
     side: 'right',
     phase: 'chemical',
   },
   {
-    stepIndex: 3, // Tolvfingertarm, lever & bukspyttkjertel
+    stepIndex: 3, // Lever & galleblære
     x: 240,
-    y: 485,
-    anchorX: 775,
-    anchorY: 470,
+    y: 400,
+    anchorX: 762,
+    anchorY: 455,
     side: 'left',
     phase: 'chemical',
   },
   {
-    stepIndex: 4, // Tynntarm & tarmtotter
+    stepIndex: 4, // Tolvfingertarm & bukspyttkjertel
     x: 240,
-    y: 765,
-    anchorX: 810,
-    anchorY: 605,
+    y: 615,
+    anchorX: 806,
+    anchorY: 536,
+    side: 'left',
+    phase: 'chemical',
+  },
+  {
+    stepIndex: 5, // Tynntarm & tarmtotter
+    x: 240,
+    y: 830,
+    anchorX: 815,
+    anchorY: 625,
     side: 'left',
     phase: 'absorption',
   },
   {
-    stepIndex: 5, // Tykktarm & tarmflora
+    stepIndex: 6, // Tykktarm & tarmflora
     x: 1410,
-    y: 770,
+    y: 755,
     anchorX: 900,
-    anchorY: 640,
+    anchorY: 655,
     side: 'right',
     phase: 'absorption',
   },

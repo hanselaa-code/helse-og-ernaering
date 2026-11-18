@@ -117,26 +117,72 @@ export const FORDOYELSEN_NODES: HealthNodeData[] = [
     accentColor: '#F43F5E',
   },
   {
-    id: 'ford-4-tolvfingertarm',
+    id: 'ford-lever',
     stepNumber: 4,
-    title: 'Tolvfingertarmen, lever & bukspyttkjertel',
+    title: 'Leveren & galleblæren',
+    shortLabel: 'Lever & galle',
+    subtitleTag: 'Kroppens kjemiske fabrikk, lager og rensestasjon',
+    eraLabel: 'Stoffskifte & galle',
+    primaryBadge: 'Over 500 funksjoner',
+    secondaryBadge: 'Galle + avgiftning + lager',
+    competenceGoals: ['KM1'],
+    summaryTitle: 'Produksjon av galle, blodsukkerkontroll og avgiftning',
+    whatHappens:
+      'Leveren er kroppens største indre organ og mottar alt næringsrikt blod fra tarmen gjennom portvenen. Den produserer galle som lagres i galleblæren og sendes ut i tolvfingertarmen for å finfordele fett. I tillegg regulerer leveren blodsukkeret ved å lagre overflødig glukose som glykogen, bryter ned alkohol, medisiner og giftstoffer (avgiftning), omdanner ammoniakk til urea, lagrer jern og vitaminer (A, D, E, K, B12), og lager livsviktige blodproteiner.',
+    classroomTest:
+      'Hvorfor går blodet fra tynntarmen først til leveren via portvenen før det når resten av kroppen? Leveren fungerer som en tollstasjon som justerer næringsmengden og fjerner skadelige stoffer før blodet sendes ut i kretsløpet!',
+    keyTraits: [
+      {
+        icon: 'droplets',
+        title: 'Galleproduksjon (emulgerer fett)',
+        description:
+          'Gallesalter fra leveren deles ut via galleblæren til tolvfingertarmen og splitter store fettklumper til mikrodråper.',
+      },
+      {
+        icon: 'activity',
+        title: 'Blodsukker & glykogenlager',
+        description:
+          'Lagrer glukose som glykogen etter måltider og frigjør glukose til blodet mellom måltider og under trening.',
+      },
+      {
+        icon: 'shield',
+        title: 'Avgiftning & rensing av blodet',
+        description:
+          'Bryter ned alkohol, legemidler og avfallsstoffer, og omdanner giftig ammoniakk fra proteinnedbrytning til urea.',
+      },
+      {
+        icon: 'layers',
+        title: 'Lager for vitaminer, jern & proteiner',
+        description:
+          'Lagrer fettløselige vitaminer (A, D, E, K), B12 og jern, og produserer plasmaproteiner og koagulasjonsfaktorer.',
+      },
+    ],
+    terms: ['Galle', 'Glykogen', 'Portvenen'],
+    discussionQuestion:
+      'Hva skjer med både fettfordøyelsen og blodsukkerreguleringen hvis leveren blir alvorlig skadet?',
+    accentColor: '#10B981',
+  },
+  {
+    id: 'ford-4-tolvfingertarm',
+    stepNumber: 5,
+    title: 'Tolvfingertarmen & bukspyttkjertelen',
     shortLabel: 'Tolvfingertarm',
-    subtitleTag: 'Nøytralisering, galle og enzym-kraftpakke',
+    subtitleTag: 'Nøytralisering av syre og enzym-kraftpakke',
     eraLabel: 'Kjemisk hovedstasjon',
     primaryBadge: 'pH ~7,5–8,0 (svakt basisk)',
-    secondaryBadge: 'Galle + Lipase + Trypsin',
+    secondaryBadge: 'Bikarbonat + Lipase + Trypsin',
     competenceGoals: ['KM1'],
-    summaryTitle: 'Fett finfordeles og alle makronæringsstoffer spaltes',
+    summaryTitle: 'Sur matvelling nøytraliseres og alle makronæringsstoffer spaltes',
     whatHappens:
-      'Når den sure matvellingen kommer ut i tolvfingertarmen (første del av tynntarmen), skiller bukspyttkjertelen ut bikarbonat som nøytraliserer magesyren, pluss enzymer for alle næringsstoffer: amylase (stivelse), trypsin (protein) og lipase (fett). Samtidig kommer galle fra leveren/galleblæren og finfordeler fettet til bittesmå dråper (emulgering).',
+      'Når den sure matvellingen kommer ut av magesekken inn i tolvfingertarmen (de første ca. 25 cm av tynntarmen), skiller bukspyttkjertelen ut bikarbonat som nøytraliserer magesyren, pluss enzymer for alle næringsstoffer: amylase (stivelse), trypsin (protein) og lipase (fett). Samtidig tømmes galle fra lever/galleblære hit for å emulgere fettet.',
     classroomTest:
       'Galle fungerer akkurat som oppvaskmiddel (Zalo) på fett i en stekepanne: det løser ikke fettet kjemisk, men deler store fettklumper i bittesmå dråper så lipase får stor angrepsflate!',
     keyTraits: [
       {
-        icon: 'droplets',
-        title: 'Galle fra lever/galleblære',
+        icon: 'sparkles',
+        title: 'Bikarbonat beskytter tarmen',
         description:
-          'Inneholder ikke enzymer, men gallesalter som emulgerer fett til mikroskopiske dråper.',
+          'Hevder pH fra 2 til ca. 8, som er nødvendig for at tarmenzymene skal virke uten at tarmveggen etses.',
       },
       {
         icon: 'flask',
@@ -145,10 +191,10 @@ export const FORDOYELSEN_NODES: HealthNodeData[] = [
           'Lipase (fett → fettsyrer + glyserol), trypsin (protein → peptider) og amylase (stivelse → sukker).',
       },
       {
-        icon: 'sparkles',
-        title: 'Bikarbonat beskytter tarmen',
+        icon: 'droplets',
+        title: 'Møtepunkt for galle og bukspytt',
         description:
-          'Hevder pH fra 2 til ca. 8, som er nødvendig for at tarmenzymene skal virke.',
+          'Fettet emulgeres av galle fra leveren rett før bukspyttkjertelens lipase klipper fettsyrene løs.',
       },
     ],
     terms: ['Galle', 'Enzym', 'Amylase'],
@@ -158,7 +204,7 @@ export const FORDOYELSEN_NODES: HealthNodeData[] = [
   },
   {
     id: 'ford-5-tynntarm',
-    stepNumber: 5,
+    stepNumber: 6,
     title: 'Tynntarmen & tarmtottene',
     shortLabel: 'Tynntarm',
     subtitleTag: 'Enorm overflate for opptak til blod og lymfe',
@@ -192,7 +238,7 @@ export const FORDOYELSEN_NODES: HealthNodeData[] = [
   },
   {
     id: 'ford-6-tykktarm',
-    stepNumber: 6,
+    stepNumber: 7,
     title: 'Tykktarmen & tarmfloraen',
     shortLabel: 'Tykktarm',
     subtitleTag: 'Vannopptak, salter og milliarder av nyttige bakterier',
