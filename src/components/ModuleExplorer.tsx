@@ -29,6 +29,18 @@ function getLayoutCoords(themeId: string, count: number): NodeCoord[] {
       { x: 890, y: 400, cardSide: 'below' },
     ];
   }
+  if (themeId === 'celleanding' && count >= 7) {
+    // Steg 1 (ATP) -> 3 grener: Karbohydrat (deler seg i Aerob/Anaerob), Fett, Protein -> samles i Steg 7
+    return [
+      { x: 180, y: 310, cardSide: 'above' },
+      { x: 540, y: 125, cardSide: 'above' },
+      { x: 920, y: 35, cardSide: 'above' },
+      { x: 920, y: 220, cardSide: 'below' },
+      { x: 540, y: 380, cardSide: 'below' },
+      { x: 540, y: 630, cardSide: 'below' },
+      { x: 1290, y: 310, cardSide: 'above' },
+    ];
+  }
   const stepX = 330;
   const startX = 240;
   return Array.from({ length: count }, (_, idx) => ({
@@ -67,7 +79,10 @@ export function ModuleExplorer({
   } | null>(null);
 
   const nodes = activeTheme.allNodes;
-  const isNutrientsBranch = activeTheme.id === 'naeringsstoffer' && nodes.length >= 6;
+  const isNutrientsBranch =
+    activeTheme.id === 'naeringsstoffer' && nodes.length >= 6;
+  const isCelleandingBranch =
+    activeTheme.id === 'celleanding' && nodes.length >= 7;
   const coords = getLayoutCoords(activeTheme.id, nodes.length);
   const effectiveMaxStep = showAllSteps ? nodes.length - 1 : unlockedStepIndex;
   const themeImgUrl = getHealthImage(`mod_${activeTheme.id}.jpg`);
@@ -100,6 +115,16 @@ export function ModuleExplorer({
           scale,
         };
       }
+      if (isCelleandingBranch) {
+        const scaleX = (viewport.width * 0.88) / 760;
+        const scaleY = (viewport.height * 0.82) / 520;
+        const scale = Math.max(0.46, Math.min(1.02, Math.min(scaleX, scaleY)));
+        return {
+          x: pos.x,
+          y: pos.y + (pos.cardSide === 'above' ? -55 : 65),
+          scale,
+        };
+      }
       const prev = coords[Math.max(0, stepIdx - 1)];
       const next = coords[Math.min(coords.length - 1, stepIdx + 1)];
       const minX = Math.min(pos.x - 240, prev.x - 160);
@@ -114,7 +139,13 @@ export function ModuleExplorer({
         scale,
       };
     },
-    [coords, isNutrientsBranch, viewport.height, viewport.width],
+    [
+      coords,
+      isCelleandingBranch,
+      isNutrientsBranch,
+      viewport.height,
+      viewport.width,
+    ],
   );
 
   const computeOverviewCamera = useCallback(() => {
@@ -127,6 +158,17 @@ export function ModuleExplorer({
         x: 720,
         y: 285,
         scale: Math.max(0.32, Math.min(0.88, Math.min(scaleX, scaleY))),
+      };
+    }
+    if (isCelleandingBranch) {
+      const totalW = 1480;
+      const totalH = 1040;
+      const scaleX = (viewport.width * 0.94) / totalW;
+      const scaleY = (viewport.height * 0.9) / totalH;
+      return {
+        x: 735,
+        y: 330,
+        scale: Math.max(0.28, Math.min(0.85, Math.min(scaleX, scaleY))),
       };
     }
     const totalW = Math.max(900, (nodes.length - 1) * 330 + 480);
@@ -359,6 +401,60 @@ export function ModuleExplorer({
                   fill="none"
                   stroke={unlocked ? edge.color : '#334155'}
                   strokeWidth={unlocked ? 4 : 2.5}
+                  strokeOpacity={unlocked ? 0.85 : 0.45}
+                  strokeDasharray={unlocked ? undefined : '7 7'}
+                />
+              );
+            })}
+          </>
+        ) : isCelleandingBranch ? (
+          <>
+            {/* Branch header pills for Omsetning & celleånding */}
+            <g transform="translate(420, -196)">
+              <rect
+                x="0"
+                y="0"
+                width="620"
+                height="28"
+                rx="14"
+                fill="rgba(120, 53, 15, 0.38)"
+                stroke="rgba(245, 158, 11, 0.55)"
+                strokeWidth="1.4"
+              />
+              <text
+                x="310"
+                y="14"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#FDE68A"
+                fontSize="11.5"
+                fontWeight="800"
+                letterSpacing="0.8"
+              >
+                KARBOHYDRAT-GREN • AEROB (~30–32 ATP) vs. ANAEROB (2 ATP)
+              </text>
+            </g>
+
+            {/* Branching & converging curves */}
+            {[
+              { from: 0, to: 1, color: '#F59E0B' },
+              { from: 1, to: 2, color: '#10B981' },
+              { from: 1, to: 3, color: '#F43F5E' },
+              { from: 0, to: 4, color: '#38BDF8' },
+              { from: 0, to: 5, color: '#A855F7' },
+              { from: 2, to: 6, color: '#10B981' },
+              { from: 3, to: 6, color: '#F43F5E' },
+              { from: 4, to: 6, color: '#38BDF8' },
+              { from: 5, to: 6, color: '#A855F7' },
+            ].map((edge) => {
+              const unlocked = edge.to <= effectiveMaxStep;
+              return (
+                <path
+                  key={`celle-branch-${edge.from}-${edge.to}`}
+                  d={buildWavePath(coords[edge.from], coords[edge.to])}
+                  fill="none"
+                  stroke={unlocked ? edge.color : '#334155'}
+                  strokeWidth={unlocked ? 3.8 : 2.4}
                   strokeOpacity={unlocked ? 0.85 : 0.45}
                   strokeDasharray={unlocked ? undefined : '7 7'}
                 />

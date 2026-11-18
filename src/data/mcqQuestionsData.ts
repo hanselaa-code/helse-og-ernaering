@@ -153,26 +153,26 @@ export const FORDOYELSEN_MCQ_QUESTIONS: McqQuestionItem[] = [
 export const CELLEANDING_MCQ_QUESTIONS: McqQuestionItem[] = [
   {
     id: 'celle-q1',
-    question: 'Hva er den riktige reaksjonsligningen for aerob celleånding?',
+    question: 'Hva skjer når cellen bruker energi fra molekylet ATP?',
     options: [
-      '6 CO₂ + 6 H₂O → C₆H₁₂O₆ + 6 O₂',
-      'C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O + energi (ATP + varme)',
-      'C₆H₁₂O₆ → 2 melkesyre + 32 ATP',
-      '6 O₂ + ATP → glukose + CO₂',
+      'ATP spaltes til ADP + P og frigjør brukbar energi',
+      'ATP gjøres om direkte til glukose i blodet',
+      'ATP pustes ut som CO₂ i lungene',
+      'ATP omdannes til melkesyre i magesekken',
     ],
-    correctIndex: 1,
+    correctIndex: 0,
     explanation:
-      'I celleåndingen reagerer glukose med oksygen og danner karbondioksid, vann, varme og ~30–32 ATP.',
-    relatedStepId: 'celle-1-oversikt',
+      'ATP fungerer som cellens oppladbare batteri: når det ytterste fosfatet klippes av (ATP → ADP + P), frigjøres energi til celleprosesser.',
+    relatedStepId: 'celle-1-atp',
   },
   {
     id: 'celle-q2',
-    question: 'Hvor i cellen foregår glykolysen?',
+    question: 'Hvor i cellen foregår glykolysen, og hvor mye ATP gir den netto?',
     options: [
-      'Inne i cellekjernen',
-      'I cytoplasma (cellevæsken)',
-      'Bare i røde blodcellers mitokondrier',
-      'På innsiden av tarmtottene',
+      'I mitokondriet – ca. 32 ATP',
+      'I cytoplasma uten O₂ – 2 netto ATP',
+      'I cellekjernen – 106 ATP',
+      'I tykktarmen – 0 ATP',
     ],
     correctIndex: 1,
     explanation:
@@ -181,51 +181,74 @@ export const CELLEANDING_MCQ_QUESTIONS: McqQuestionItem[] = [
   },
   {
     id: 'celle-q3',
-    question: 'I hvilket trinn av celleåndingen dannes mesteparten av ATP-et (~26–28 ATP)?',
+    question: 'Omtrent hvor mye ATP dannes totalt per glukosemolekyl ved aerob celleånding (med O₂)?',
     options: [
-      'Glykolysen',
-      'Sitronsyresyklus',
-      'Elektrontransportkjeden i mitokondriet',
-      'Melkesyregjæringen',
+      'Bare 2 ATP',
+      'Ca. 8 ATP',
+      'Ca. 30–32 ATP (2 + 2 + ~26–28)',
+      'Over 200 ATP',
     ],
     correctIndex: 2,
     explanation:
-      'Elektrontransportkjeden bruker elektronbærerne NADH og FADH₂ og ATP-syntase til å lage ca. 26–28 ATP.',
-    relatedStepId: 'celle-4-elektron',
+      'Aerob celleånding gir 2 ATP i glykolysen, 2 ATP i sitronsyresyklus og ~26–28 ATP i elektrontransportkjeden – totalt ~30–32 ATP.',
+    relatedStepId: 'celle-3-aerob',
   },
   {
     id: 'celle-q4',
-    question: 'Hvilken rolle spiller oksygen (O₂) helt til slutt i elektrontransportkjeden?',
+    question: 'Når går muskelcellene over til anaerob celleånding, og hva dannes da?',
     options: [
-      'Det spalter glukose i cytoplasma',
-      'Det tar imot elektroner og H⁺-ioner og danner vann (H₂O)',
-      'Det frakter ATP ut av cellen',
-      'Det gjør om laktat til stivelse',
+      'Når du sover dypt – det dannes fett',
+      'Når intensiteten er så høy at O₂ ikke strekker til – det dannes 2 ATP og melkesyre (laktat)',
+      'Når du drikker mye vann – det dannes urea',
+      'Når du spiser grønnsaker – det dannes stivelse',
     ],
     correctIndex: 1,
     explanation:
-      'Oksygen er siste elektronmottaker. Uten O₂ stopper elektrontransportkjeden og sitronsyresyklus opp.',
-    relatedStepId: 'celle-4-elektron',
+      'Ved spurt og svært høy intensitet trengs ATP raskere enn O₂-leveransen, så glykolysen kjører anaerobt (2 ATP) og danner laktat.',
+    relatedStepId: 'celle-4-anaerob',
   },
   {
     id: 'celle-q5',
-    question: 'Omtrent hvor mye mer ATP gir aerob celleånding per glukose sammenlignet med anaerob glykolyse?',
+    question: 'Hva kjennetegner fettforbrenning (beta-oksidasjon) sammenlignet med karbohydrater?',
     options: [
-      'Like mye (2 ATP)',
-      'Dobbelt så mye (4 ATP)',
-      'Omtrent 15 ganger mer (~30–32 ATP mot 2 ATP)',
-      '100 ganger mindre',
+      'Fett kan forbrennes anaerobt uten oksygen',
+      'Fett krever alltid O₂, men gir rundt ~106 ATP per fettsyre',
+      'Fett gir mindre energi per gram enn sukker',
+      'Fett må først gjennom deaminering og danne urea',
     ],
-    correctIndex: 2,
+    correctIndex: 1,
     explanation:
-      'Aerob celleånding gir ca. 30–32 ATP per glukosemolekyl, mens anaerob glykolyse bare gir 2 ATP.',
-    relatedStepId: 'celle-5-regnskap',
+      'Fettsyrer klippes til acetyl-CoA i mitokondriet (kun aerobt) og gir svært mye ATP (~106 ATP for en 16-karbon fettsyre).',
+    relatedStepId: 'celle-5-fett',
+  },
+  {
+    id: 'celle-q6',
+    question: 'Hva må skje med aminosyrer før de kan brukes til å lage ATP?',
+    options: [
+      'De må emulgeres av galle i magesekken',
+      'Nitrogengruppen (NH₂) må fjernes ved deaminering og gjøres om til urea',
+      'De gjøres om til melkesyre i cytoplasma',
+      'De lagres som glykogen i fettvevet',
+    ],
+    correctIndex: 1,
+    explanation:
+      'Ved deaminering i leveren fjernes nitrogenet og skilles ut som urea i urinen, før karbonskjelettet brennes i celleåndingen.',
+    relatedStepId: 'celle-6-protein',
   },
 ];
 
 export const VAESKEBALANSE_MCQ_QUESTIONS: McqQuestionItem[] = [
   {
     id: 'vaesk-q1',
+    question: 'Hvor stor andel av kroppsvekten hos en voksen består omtrent av vann?',
+    options: ['Ca. 15 %', 'Ca. 35 %', 'Ca. 60 %', 'Ca. 90 %'],
+    correctIndex: 2,
+    explanation:
+      'Rundt 60 % av kroppsvekten er vann, og allerede 1–2 % væsketap merkes på konsentrasjon og fysisk prestasjon.',
+    relatedStepId: 'vaesk-1-vann',
+  },
+  {
+    id: 'vaesk-q2',
     question: 'Hvordan kjøler svette ned kroppen når du trener?',
     options: [
       'Selve vannet er kaldere enn huden',
@@ -239,7 +262,7 @@ export const VAESKEBALANSE_MCQ_QUESTIONS: McqQuestionItem[] = [
     relatedStepId: 'vaesk-2-termo',
   },
   {
-    id: 'vaesk-q2',
+    id: 'vaesk-q3',
     question: 'Hva styrer osmosen av vann inn og ut av kroppens celler?',
     options: [
       'Forskjellen i konsentrasjon av oppløste salter/stoffer (elektrolytter)',
@@ -253,35 +276,7 @@ export const VAESKEBALANSE_MCQ_QUESTIONS: McqQuestionItem[] = [
     relatedStepId: 'vaesk-3-elektrolytter',
   },
   {
-    id: 'vaesk-q3',
-    question: 'Hva kjennetegner aerob energifrigjøring?',
-    options: [
-      'Den skjer uten oksygen og gir mye melkesyre',
-      'Den skjer med nok oksygen og gir mye ATP over lang tid',
-      'Den kan bare vare i 10 sekunder',
-      'Den bruker bare proteiner som brensel',
-    ],
-    correctIndex: 1,
-    explanation:
-      'Ved aerob forbrenning får musklene nok O₂ til fullstendig celleånding, slik at du kan holde på lenge.',
-    relatedStepId: 'vaesk-4-aerob',
-  },
-  {
     id: 'vaesk-q4',
-    question: 'Når går muskelcellene over til anaerob glykolyse med dannelse av melkesyre (laktat)?',
-    options: [
-      'Når du sover dypt',
-      'Når intensiteten er så høy at blodet ikke rekker å levere nok oksygen',
-      'Når du drikker for mye vann',
-      'Når du spiser for mye grønnsaker',
-    ],
-    correctIndex: 1,
-    explanation:
-      'Ved spurt og svært høy intensitet trengs ATP raskere enn O₂-leveransen, så glykolysen kjører anaerobt og danner laktat.',
-    relatedStepId: 'vaesk-5-anaerob',
-  },
-  {
-    id: 'vaesk-q5',
     question: 'Når har man vanligvis behov for sportsdrikke med salter i stedet for bare vann?',
     options: [
       'På en 20 minutters rolig gåtur',

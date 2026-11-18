@@ -70,7 +70,7 @@ export const HEALTH_HUB_NODES: HubNodeConfig[] = [
     description:
       'Fra mekanisk tygging og saltsyre til enzymer i tynntarmen og opptak gjennom tarmtottene.',
     competenceGoals: ['KM1'],
-    stepCount: 6,
+    stepCount: 7,
     accentHex: '#F59E0B',
     cx: 540,
     cy: 112,
@@ -80,11 +80,11 @@ export const HEALTH_HUB_NODES: HubNodeConfig[] = [
   {
     id: 'celleanding',
     title: 'Celleånding',
-    shortTag: 'Glukose + O₂ → ATP',
+    shortTag: 'ATP • Aerob & anaerob',
     description:
-      'Hvordan cellene frigjør energi fra næringsstoffene i mitokondriene og lager ATP.',
+      'Hvordan ATP lages fra karbohydrater (aerob og anaerob), fett og proteiner – og når kroppen bruker hva.',
     competenceGoals: ['KM1'],
-    stepCount: 5,
+    stepCount: 7,
     accentHex: '#38BDF8',
     cx: 790,
     cy: 170,
@@ -94,11 +94,11 @@ export const HEALTH_HUB_NODES: HubNodeConfig[] = [
   {
     id: 'vaeskebalanse',
     title: 'Væskebalanse',
-    shortTag: 'Aerob, anaerob & salt',
+    shortTag: 'Vann, svette & osmose',
     description:
-      'Osmose, elektrolytter og forskjellen på aerob og anaerob forbrenning ved ulik intensitet.',
+      'Vann som transportmiddel, termoregulering via svette, elektrolytter og osmose i cellene.',
     competenceGoals: ['KM1', 'KM2'],
-    stepCount: 5,
+    stepCount: 3,
     accentHex: '#06B6D4',
     cx: 875,
     cy: 415,

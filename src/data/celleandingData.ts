@@ -2,175 +2,256 @@ import type { HealthNodeData } from './types';
 
 export const CELLEANDING_NODES: HealthNodeData[] = [
   {
-    id: 'celle-1-oversikt',
+    id: 'celle-1-atp',
     stepNumber: 1,
-    title: 'Hva er celleånding & ATP?',
-    shortLabel: 'Celleånding',
-    subtitleTag: 'Slik gjør cellene mat om til brukbar energi',
-    eraLabel: 'Energiomsetning',
-    primaryBadge: 'C₆H₁₂O₆ + 6 O₂ → 6 CO₂ + 6 H₂O',
-    secondaryBadge: 'Netto: ~30–32 ATP',
+    title: 'Hva er ATP? – Cellens energivaluta',
+    shortLabel: 'ATP (Energi)',
+    subtitleTag: 'Det oppladbare batteriet som driver alt liv i cellen',
+    eraLabel: 'Startpunkt',
+    primaryBadge: 'ATP → ADP + P + energi',
+    secondaryBadge: 'Karb • Fett • Protein',
     traceBadge: 'KM1: Celleånding',
     competenceGoals: ['KM1'],
-    summaryTitle: 'Fra kjemisk energi i glukose til cellens batteri (ATP)',
+    summaryTitle: 'Maten må veksles inn i ATP før cellen kan bruke energien',
     whatHappens:
-      'Når glukose og oksygen fraktes med blodet inn til cellene, skjer celleånding. I stedet for at energien slippes ut i én eksplosjon (som et bål), skjer nedbrytningen kontrollert i mange små trinn. Energien lagres i molekylet ATP (adenosintrifosfat) – cellens universelle «batteri» som driver alt muskelarbeid, hjerneaktivitet og cellebygging.',
+      'Cellene våre kan ikke bruke energi direkte fra brødskive, smør eller biff. Først må kjemisk energi i karbohydrater, fett og proteiner brukes til å lade opp molekylet ATP (adenosintrifosfat). ATP fungerer som cellens universelle, oppladbare batteri: når cellen skal trekke sammen en muskel, sende et nervesignal eller bygge et protein, klipper den av det ytterste fosfatet på ATP. Da blir ATP til ADP + P og energi frigjøres. Etterpå lades ADP opp til ATP igjen ved celleånding!',
     classroomTest:
-      'Sammenlign et bål og celleånding: Begge oksiderer karbonforbindelser med oksygen og gir CO₂ + vann + varme, men cellen fanger ~38 % av energien som ATP i stedet for å brenne opp!',
+      'Du lager og bruker omtrent din egen kroppsvekt i ATP hver eneste dag! Det går an fordi hvert ATP-molekyl lades opp og brukes om igjen tusenvis av ganger i døgnet.',
     keyTraits: [
       {
         icon: 'zap',
-        title: 'ATP → ADP + P + energi',
+        title: 'Oppladbart batteri (ATP ↔ ADP + P)',
         description:
-          'Når cellen trenger energi, klipper den av det ytterste fosfatet på ATP. Etterpå «lades» ADP opp igjen i mitokondriet.',
+          'ADP + P er det utladede batteriet. Celleånding bruker energi fra maten til å sette på det tredje fosfatet igjen.',
       },
       {
         icon: 'flame',
-        title: 'Restenergi blir kroppsvarme',
+        title: 'Tre næringsstoffer kan lage ATP',
         description:
-          'Rundt 60 % av energien fra glukose blir til varme, som holder kroppstemperaturen vår stabil på ca. 37 °C.',
+          'Herfra deler omsetningen seg i tre grener: karbohydrater (raskest), fett (størst lager) og proteiner (nødreserve).',
+      },
+      {
+        icon: 'thermometer',
+        title: 'Varme holder oss på 37 °C',
+        description:
+          'Rundt 60 % av energien fra maten blir til kroppsvarme, mens ca. 40 % fanges i ATP.',
       },
     ],
-    terms: ['Celleånding', 'ATP', 'Mitokondrie'],
+    terms: ['ATP', 'Celleånding', 'Mitokondrie'],
     discussionQuestion:
-      'Hvorfor puster vi fortere og hjertet slår raskere når musklene jobber hardt?',
-    accentColor: '#38BDF8',
+      'Hvorfor slipper ikke cellen ut all energien i glukose i ett eneste stort smell, slik som når sukker brenner på et bål?',
+    accentColor: '#F59E0B',
   },
   {
     id: 'celle-2-glykolyse',
     stepNumber: 2,
-    title: 'Trinn 1: Glykolyse (i cytoplasma)',
-    shortLabel: 'Glykolyse',
-    subtitleTag: 'Glukose (6 C) deles i to pyruvat (3 C) uten oksygen',
-    eraLabel: 'Cytoplasma',
-    primaryBadge: '2 netto ATP + 2 NADH',
-    secondaryBadge: 'Krever IKKE O₂',
+    title: 'Karbohydrater: Glykolyse (felles start)',
+    shortLabel: 'Karb: Glykolyse',
+    subtitleTag: 'Glukose (6 C) klippes i to pyruvat (3 C) i cytoplasma',
+    eraLabel: 'Karbohydrat-gren',
+    primaryBadge: 'Netto: 2 ATP + 2 NADH',
+    secondaryBadge: 'Skjer i cytoplasma',
     competenceGoals: ['KM1'],
-    summaryTitle: 'Den eldste energiprosessen på Jorda',
+    summaryTitle: 'Første steg for alle karbohydrater – krever ikke oksygen',
     whatHappens:
-      'Glykolysen foregår ute i cellens væske (cytoplasma) og krever ikke oksygen. Ett glukosemolekyl med 6 karbonatomer spaltes gjennom 10 enzymstyrte steg til to molekyler pyruvat (med 3 karbonatomer hver). Netto gevinst er bare 2 ATP, pluss 2 ladede elektronbærere (NADH) som frakter høyenergetiske elektroner videre.',
+      'Når du spiser karbohydrater, brytes de ned til glukose som fraktes inn i cellene. Første steg skjer ute i cellevæsken (cytoplasma) og kalles glykolyse. Ett glukosemolekyl med 6 karbonatomer klippes gjennom 10 trinn i to molekyler pyruvat (3 karbonatomer hver). Dette krever IKKE oksygen og gir 2 netto ATP samt 2 ladede elektronbærere (NADH). Herfra tar glukosen én av to veier – avhengig av om cellen har nok oksygen eller ikke!',
     classroomTest:
-      'Visste du at glykolysen finnes i nesten alle levende organismer – fra bakterier til mennesker? Den oppsto før det fantes fritt oksygen på Jorda!',
+      'Glykolysen bruker 2 ATP for å komme i gang og produserer 4 ATP tilbake – akkurat som å investere 2 kroner og få 4 kroner igjen: netto gevinst er 2 ATP.',
     keyTraits: [
       {
         icon: 'scissors',
-        title: '6 karbon → 2 × 3 karbon',
+        title: 'Glukose (6 C) → 2 Pyruvat (3 C)',
         description:
-          'Ett glukosemolekyl klippes i to pyruvatmolekyler. Det investeres 2 ATP i starten, og produseres 4 ATP (netto 2 ATP).',
+          'Skjer raskt i cytoplasma uten mitokondrier og uten oksygen.',
       },
       {
-        icon: 'zap',
-        title: 'Rask nødløsning uten O₂',
+        icon: 'wind',
+        title: 'Veiskille: Med eller uten O₂',
         description:
-          'Hvis det mangler oksygen, kan glykolysen fortsette alene (anaerobt), men da må pyruvat gjøres om til laktat.',
+          'Med oksygen går pyruvat inn i mitokondriet (aerobt). Uten nok oksygen gjøres pyruvat om til laktat (anaerobt).',
       },
     ],
-    terms: ['Glykolyse', 'ATP', 'Anaerob forbrenning'],
+    terms: ['Glykolyse', 'ATP'],
     discussionQuestion:
-      'Hvorfor kan muskelceller bare stole på glykolysen alene i korte perioder?',
-    accentColor: '#10B981',
-  },
-  {
-    id: 'celle-3-sitronsyre',
-    stepNumber: 3,
-    title: 'Trinn 2: Sitronsyresyklus (i mitokondriet)',
-    shortLabel: 'Sitronsyresyklus',
-    subtitleTag: 'Pyruvat brytes ned til CO₂ og lader elektronbærere',
-    eraLabel: 'Mitokondriets matriks',
-    primaryBadge: '2 ATP + NADH & FADH₂',
-    secondaryBadge: 'CO₂ pustes ut',
-    competenceGoals: ['KM1'],
-    summaryTitle: 'Her dannes CO₂-en vi puster ut',
-    whatHappens:
-      'Når oksygen er til stede, fraktes pyruvat inn i mitokondriet. Først spaltes ett karbonatom av som CO₂ (dannelse av acetyl-CoA), før resten går inn i sitronsyresyklus (Krebs syklus). Her brytes karbonringene helt ned, vi får ut CO₂ som avfall (som blodet frakter til lungene), 2 nye ATP, og massevis av ladede elektronbærere (NADH og FADH₂).',
-    classroomTest:
-      'Hvert eneste CO₂-molekyl du puster ut akkurat nå, stammer fra karbonatomene i maten du har spist og som ble klippet av i mitokondriene!',
-    keyTraits: [
-      {
-        icon: 'refresh',
-        title: 'Sirkulær enzym-karusell',
-        description:
-          'Acetyl-CoA (2 C) kobles på et 4-karbonmolekyl og blir til sitronsyre (6 C), som gradvis oksideres tilbake til 4 C.',
-      },
-      {
-        icon: 'battery',
-        title: 'Lader «elektron-taxier»',
-        description:
-          'Hovedpoenget med syklusen er ikke de 2 ATP-ene, men å lade opp NADH og FADH₂ med elektroner til siste trinn.',
-      },
-    ],
-    terms: ['Sitronsyresyklus', 'Mitokondrie', 'Celleånding'],
-    discussionQuestion:
-      'Hvorfor går du ned i vekt i form av masse når du trener? Hvor blir karbonatomene fra fettet og sukkeret av? (Svar: Du puster dem ut som CO₂!)',
+      'Hva avgjør om pyruvat fra glykolysen går videre til aerob eller anaerob celleånding?',
     accentColor: '#F59E0B',
   },
   {
-    id: 'celle-4-elektron',
-    stepNumber: 4,
-    title: 'Trinn 3: Elektrontransportkjeden',
-    shortLabel: 'Elektronkjede',
-    subtitleTag: 'Oksygen er sluttmottaker og gir den store ATP-gevinsten',
-    eraLabel: 'Indre mitokondriemembran',
-    primaryBadge: '~26–28 ATP',
-    secondaryBadge: 'O₂ + H⁺ + e⁻ → H₂O',
+    id: 'celle-3-aerob',
+    stepNumber: 3,
+    title: 'Aerob celleånding (med oksygen)',
+    shortLabel: 'Aerob (med O₂)',
+    subtitleTag: 'Sitronsyresyklus + elektrontransportkjede i mitokondriet',
+    eraLabel: 'Karbohydrat • Aerob',
+    primaryBadge: 'Totalt ~30–32 ATP',
+    secondaryBadge: 'CO₂ + H₂O som avfall',
+    traceBadge: 'KM1: Aerob vs. anaerob',
     competenceGoals: ['KM1'],
-    summaryTitle: 'Protonpumpe og ATP-syntase',
+    summaryTitle: 'Fullstendig forbrenning gir 15 ganger mer ATP enn anaerobt',
     whatHappens:
-      'I den indre membranen til mitokondriet leverer NADH og FADH₂ fra seg elektronene sine til en kjede av proteinkomplekser. Energien fra elektronene brukes til å pumpe H⁺-ioner (protoner) ut i mellomrommet, slik at det oppstår et trykk. Når H⁺ strømmer tilbake gjennom enzymturbinen ATP-syntase, lages ca. 26–28 ATP. Til slutt tar oksygen (O₂) imot elektronene og H⁺ og danner vann (H₂O).',
+      'Når musklene får nok oksygen (f.eks. ved jogging eller rolig sykling), fraktes pyruvat inn i mitokondriet og blir til acetyl-CoA (2 C). Der går det gjennom to hovedsteg:\n1) Sitronsyresyklus: Karbonatomene brytes helt ned til CO₂ (som vi puster ut), og vi får 2 ATP + masse ladede elektronbærere (NADH og FADH₂).\n2) Elektrontransportkjeden: Elektronene driver protonpumper gjennom enzymturbinen ATP-syntase og gir ca. 26–28 ATP. Oksygen tar imot elektronene til slutt og danner vann (H₂O).',
     classroomTest:
-      'Tenk på et vannkraftverk: Elektronkjeden pumper vann (H⁺-ioner) opp i et magasin, og ATP-syntase er turbinen som snurrer og produserer strøm (ATP) når vannet renner tilbake!',
+      'Snakketesten: Klarer du å snakke i hele setninger mens du trener, leverer hjerte og lunger nok O₂ til at celleåndingen går aerobt!',
     keyTraits: [
       {
-        icon: 'wind',
-        title: 'Derfor trenger vi oksygen',
+        icon: 'refresh',
+        title: 'Sitronsyresyklus → 2 ATP + CO₂',
         description:
-          'Uten O₂ på slutten av kjeden stopper hele trafikken av elektroner opp – akkurat som en trafikkork.',
+          'Karbonatomene fra maten slippes ut som CO₂ og lader opp NADH og FADH₂ med elektroner.',
       },
       {
         icon: 'zap',
-        title: 'ATP-syntase – naturens minste turbin',
+        title: 'Elektronkjede → ~26–28 ATP + H₂O',
         description:
-          'Roterer tusenvis av ganger i minuttet og smir ADP + P sammen til ATP.',
+          'Oksygen er sluttmottaker for elektronene. Totalt per glukose: 2 + 2 + 26–28 = ~30–32 ATP!',
       },
     ],
-    terms: ['Elektrontransportkjeden', 'Mitokondrie', 'ATP'],
+    terms: ['Aerob forbrenning', 'Sitronsyresyklus', 'Elektrontransportkjeden'],
     discussionQuestion:
-      'Hvorfor er giftstoffet cyanid så dødelig på sekunder? (Det blokkerer siste ledd i elektrontransportkjeden så O₂ ikke kan ta imot elektroner.)',
+      'Hvorfor stopper hele elektrontransportkjeden opp hvis cellen går tom for oksygen?',
+    accentColor: '#10B981',
+  },
+  {
+    id: 'celle-4-anaerob',
+    stepNumber: 4,
+    title: 'Anaerob celleånding & melkesyre',
+    shortLabel: 'Anaerob (uten O₂)',
+    subtitleTag: 'Lynrask nødløsning uten oksygen i cytoplasma',
+    eraLabel: 'Karbohydrat • Anaerob',
+    primaryBadge: 'Totalt: bare 2 ATP',
+    secondaryBadge: 'Danner melkesyre (laktat)',
+    competenceGoals: ['KM1'],
+    summaryTitle: 'Høy fart i kort tid – lavt ATP-utbytte og sure muskler',
+    whatHappens:
+      'Når du spurter alt du kan på 400 meter eller løfter tungt, trenger musklene ATP raskere enn blodet rekker å levere oksygen. Da stanser mitokondriet opp, og cellen må stole på glykolysen alene. For at glykolysen skal kunne fortsette, gjøres pyruvat om til melkesyre (laktat). Det gir bare 2 ATP per glukose, men leverer dem lynraskt! Bakdelen er at melkesyre og H⁺-ioner gjør muskelen stiv og sliten etter 10–90 sekunder.',
+    classroomTest:
+      'Hvorfor peser du lenge *etter* en 60-meter sprint? Du betaler tilbake «oksygen-gjelden» ved å frakte laktat til leveren og bygge det om til glukose igjen!',
+    keyTraits: [
+      {
+        icon: 'zap',
+        title: '2 ATP på rekordtid',
+        description:
+          'Gir 15 ganger mindre ATP per glukose enn aerob forbrenning, men kan skru opp farten umiddelbart uten å vente på O₂.',
+      },
+      {
+        icon: 'alert',
+        title: 'Kun karbohydrater kan brukes anaerobt',
+        description:
+          'Verken fett eller protein kan gi ATP uten oksygen – ved maks spurt er kroppen helt avhengig av glykogenlagrene!',
+      },
+    ],
+    terms: ['Anaerob forbrenning', 'Melkesyre (laktat)', 'Glykolyse'],
+    discussionQuestion:
+      'Hvorfor kan du ikke spurte en hel maraton i 100-meterstempo?',
+    accentColor: '#F43F5E',
+  },
+  {
+    id: 'celle-5-fett',
+    stepNumber: 5,
+    title: 'Fettforbrenning (Beta-oksidasjon)',
+    shortLabel: 'Fettforbrenning',
+    subtitleTag: 'Fettsyrer klippes i 2-karbonbiter og går inn i mitokondriet',
+    eraLabel: 'Fett-gren (kun aerob)',
+    primaryBadge: '~106 ATP per fettsyre!',
+    secondaryBadge: 'Krever alltid O₂',
+    competenceGoals: ['KM1'],
+    summaryTitle: 'Enorm energitetthet for hvile og langvarig arbeid',
+    whatHappens:
+      'Fett lagres som triglyserider i fettvev og muskler. Når kroppen trenger energi over tid, spaltes triglyserider til glyserol og lange fettsyrer. Inne i mitokondriet skjer beta-oksidasjon: fettsyrene klippes opp bit for bit til 2-karbonmolekyler (acetyl-CoA). Disse går rett inn i sitronsyresyklus og elektrontransportkjeden. Fordi en fettsyre har mange karbonatomer (f.eks. 16 C i palmitinsyre), gir én eneste fettsyre rundt 106 ATP!',
+    classroomTest:
+      'Fett gir over dobbelt så mye energi per gram som karbohydrat (38 kJ/g vs. 17 kJ/g), men det krever mer oksygen per ATP – derfor går fettforbrenningen saktere enn karbohydratforbrenningen.',
+    keyTraits: [
+      {
+        icon: 'flame',
+        title: 'Beta-oksidasjon → Acetyl-CoA',
+        description:
+          'En 16-karbon fettsyre klippes til 8 acetyl-CoA som alle driver sitronsyresyklus og elektronkjeden.',
+      },
+      {
+        icon: 'heart',
+        title: 'Bare aerobt – aldri anaerobt',
+        description:
+          'Fettforbrenning foregår kun i mitokondriet og krever rikelig med oksygen.',
+      },
+    ],
+    terms: ['Aerob forbrenning', 'Mitokondrie', 'ATP'],
+    discussionQuestion:
+      'Hvorfor forbrenner du høyest andel fett når du går en rolig tur, men mer karbohydrat når du løper fort?',
+    accentColor: '#38BDF8',
+  },
+  {
+    id: 'celle-6-protein',
+    stepNumber: 6,
+    title: 'Omdanning av proteiner',
+    shortLabel: 'Proteiner',
+    subtitleTag: 'Byggesteiner først – nødbrensel med nitrogenspalting',
+    eraLabel: 'Protein-gren',
+    primaryBadge: '~15–30 ATP per aminosyre',
+    secondaryBadge: 'Nitrogen → Urea (urin)',
+    competenceGoals: ['KM1'],
+    summaryTitle: 'Deaminering i leveren før karbonskjelettet brennes',
+    whatHappens:
+      'Kroppen vil helst spare proteiner til å bygge muskler, enzymer, hormoner og antistoffer. Men hvis du spiser mer protein enn du trenger, eller hvis karbohydratlagrene er tomme under langvarig faste/hard trening, kan aminosyrer brytes ned til ATP. Først må aminogruppen (NH₂) fjernes i leveren – dette kalles deaminering. Nitrogenet blir til urea som skilles ut i urinen, mens resten (karbonskjelettet) kobles inn i pyruvat, acetyl-CoA eller sitronsyresyklus.',
+    classroomTest:
+      'Hvorfor lukter det noen ganger svakt av ammoniakk av svetten etter en veldig lang og hard økt på tom mage? Kroppen har begynt å bryte ned aminosyrer til energi!',
+    keyTraits: [
+      {
+        icon: 'scissors',
+        title: 'Deaminering: Fjerner nitrogen (NH₂)',
+        description:
+          'Ammoniakk er giftig for hjernen, så leveren omdanner det raskt til ufarlig urea som nyrene filtrerer ut.',
+      },
+      {
+        icon: 'layers',
+        title: 'Kobles inn på flere steder',
+        description:
+          'Ulike aminosyrer går inn som pyruvat, acetyl-CoA eller rett i sitronsyresyklus og gir typisk ~15–30 ATP (minus energikostnaden for urea).',
+      },
+    ],
+    terms: ['Essensiell aminosyre', 'Glykogen', 'ATP'],
+    discussionQuestion:
+      'Hvorfor er det ugunstig at kroppen må bruke mye muskelprotein som drivstoff under slanking eller ekstrem trening?',
     accentColor: '#A855F7',
   },
   {
-    id: 'celle-5-regnskap',
-    stepNumber: 5,
-    title: 'Totalregnskap & fett/protein som brensel',
-    shortLabel: 'Regnskap',
-    subtitleTag: '30–32 ATP per glukose, og slik kobles fett og protein på',
-    eraLabel: 'Helhetsbildet',
-    primaryBadge: 'Totalt ~30–32 ATP',
-    secondaryBadge: 'Glukose + Fett + Protein',
+    id: 'celle-7-oversikt',
+    stepNumber: 7,
+    title: 'Når bruker kroppen hva?',
+    shortLabel: 'Når brukes hva?',
+    subtitleTag: 'Slik kombinerer kroppen karbohydrat, fett og protein',
+    eraLabel: 'Samlet oversikt',
+    primaryBadge: 'Intensitet + O₂ styrer valget',
+    secondaryBadge: 'Hvile vs. Jogg vs. Spurt',
     competenceGoals: ['KM1'],
-    summaryTitle: 'Fett gir enda mer ATP enn glukose',
+    summaryTitle: 'Intensitet, varighet og oksygentilgang avgjør drivstoffmiksen',
     whatHappens:
-      'Til sammen gir fullstendig aerob celleånding av ett glukosemolekyl ca. 30–32 ATP (2 fra glykolyse + 2 fra sitronsyresyklus + 26–28 fra elektrontransportkjeden). Men cellene kan også brenne fettsyrer og aminosyrer! Fettsyrer klippes opp til 2-karbonbiter (acetyl-CoA) og går rett inn i sitronsyresyklus – én lang fettsyre kan gi over 100 ATP.',
+      'I virkeligheten bruker kroppen nesten alltid en blanding av drivstoff, men fordelingen endrer seg hele tiden etter intensitet og varighet:\n• Hvile & rolig gange: Mest fett (~60–70 %) + litt karbohydrat aerobt. God tid og nok O₂!\n• Moderat–hard utholdenhet (jogging, fotball): Karbohydrat og fett aerobt sammen. Jo høyere tempo, desto større andel karbohydrat fordi det gir ATP raskere.\n• Maksimal spurt / tunge løft (10–90 sek): Nesten bare anaerob karbohydrat (2 ATP lynraskt + laktat).\n• Protein: Normalt bare 5–10 %, men øker ved faste eller tomme glykogenlagre.',
     classroomTest:
-      'Sammenlign: Anaerob glykolyse gir bare 2 ATP per glukose, mens aerob celleånding gir ~30–32 ATP – altså rundt 15 ganger mer energi per sukkermolekyl!',
+      '«Å møte veggen» i et maraton skjer når glykogenlagrene (karbohydrat) tar slutt! Da må kroppen stole nesten bare på fett – som gir masse ATP, men leverer energien mye saktere så farten faller bratt.',
     keyTraits: [
       {
-        icon: 'layers',
-        title: '15x høyere utbytte med oksygen',
+        icon: 'activity',
+        title: 'Lav intensitet → Fett dominerer',
         description:
-          'Aerob omsetning er langt mer drivstofføkonomisk enn anaerob.',
+          'Uuttømmelige fettlagre (~106 ATP/fettsyre) passer perfekt når det er nok oksygen.',
       },
       {
-        icon: 'flame',
-        title: 'Fett som langdistanse-drivstoff',
+        icon: 'zap',
+        title: 'Høy intensitet → Karbohydrat dominerer',
         description:
-          'Fett trenger mer oksygen per ATP, men gir enorme energimengder til rolig aktivitet og hvile.',
+          'Aerobt (~30–32 ATP) ved hard løping, og anaerobt (2 ATP + laktat) når O₂ ikke strekker til.',
+      },
+      {
+        icon: 'shield',
+        title: 'Protein spares til bygging',
+        description:
+          'Nok karbohydrater i kosten beskytter muskelproteinene mot å bli brent opp som energi.',
       },
     ],
-    terms: ['Celleånding', 'Aerob forbrenning', 'ATP'],
+    terms: ['Aerob forbrenning', 'Anaerob forbrenning', 'ATP'],
     discussionQuestion:
-      'Hvorfor klarer vi ikke å spurte på maksfart ved bare å forbrenne fett?',
-    accentColor: '#F43F5E',
+      'Hvorfor anbefales utholdenhetsutøvere å fylle opp karbohydratlagrene (glykogen) før en lang konkurranse, selv om alle har nok fett på kroppen?',
+    accentColor: '#22C55E',
   },
 ];
 
