@@ -17,7 +17,18 @@ interface NodeCoord {
   cardSide: 'above' | 'below';
 }
 
-function getLayoutCoords(count: number): NodeCoord[] {
+function getLayoutCoords(themeId: string, count: number): NodeCoord[] {
+  if (themeId === 'naeringsstoffer' && count >= 6) {
+    // Steg 1 (idx 0): Oversikt -> deler seg i øvre gren (Energigivende: 1,2,3) og nedre gren (Ikke-energigivende: 4,5)
+    return [
+      { x: 220, y: 285, cardSide: 'above' },
+      { x: 560, y: 165, cardSide: 'above' },
+      { x: 890, y: 165, cardSide: 'above' },
+      { x: 1220, y: 165, cardSide: 'above' },
+      { x: 560, y: 400, cardSide: 'below' },
+      { x: 890, y: 400, cardSide: 'below' },
+    ];
+  }
   const stepX = 330;
   const startX = 240;
   return Array.from({ length: count }, (_, idx) => ({
@@ -56,7 +67,8 @@ export function ModuleExplorer({
   } | null>(null);
 
   const nodes = activeTheme.allNodes;
-  const coords = getLayoutCoords(nodes.length);
+  const isNutrientsBranch = activeTheme.id === 'naeringsstoffer' && nodes.length >= 6;
+  const coords = getLayoutCoords(activeTheme.id, nodes.length);
   const effectiveMaxStep = showAllSteps ? nodes.length - 1 : unlockedStepIndex;
   const themeImgUrl = getHealthImage(`mod_${activeTheme.id}.jpg`);
 
@@ -78,6 +90,16 @@ export function ModuleExplorer({
   const computeFollowCamera = useCallback(
     (stepIdx: number) => {
       const pos = coords[stepIdx] ?? coords[0];
+      if (isNutrientsBranch) {
+        const scaleX = (viewport.width * 0.88) / 760;
+        const scaleY = (viewport.height * 0.82) / 560;
+        const scale = Math.max(0.48, Math.min(1.05, Math.min(scaleX, scaleY)));
+        return {
+          x: pos.x,
+          y: stepIdx === 0 ? 280 : pos.cardSide === 'above' ? 140 : 420,
+          scale,
+        };
+      }
       const prev = coords[Math.max(0, stepIdx - 1)];
       const next = coords[Math.min(coords.length - 1, stepIdx + 1)];
       const minX = Math.min(pos.x - 240, prev.x - 160);
@@ -92,10 +114,21 @@ export function ModuleExplorer({
         scale,
       };
     },
-    [coords, viewport.height, viewport.width],
+    [coords, isNutrientsBranch, viewport.height, viewport.width],
   );
 
   const computeOverviewCamera = useCallback(() => {
+    if (isNutrientsBranch) {
+      const totalW = 1360;
+      const totalH = 720;
+      const scaleX = (viewport.width * 0.94) / totalW;
+      const scaleY = (viewport.height * 0.9) / totalH;
+      return {
+        x: 720,
+        y: 285,
+        scale: Math.max(0.32, Math.min(0.88, Math.min(scaleX, scaleY))),
+      };
+    }
     const totalW = Math.max(900, (nodes.length - 1) * 330 + 480);
     const scaleX = (viewport.width * 0.94) / totalW;
     const scaleY = (viewport.height * 0.86) / 540;
@@ -104,7 +137,7 @@ export function ModuleExplorer({
       y: 280,
       scale: Math.max(0.32, Math.min(0.92, Math.min(scaleX, scaleY))),
     };
-  }, [nodes.length, viewport.height, viewport.width]);
+  }, [isNutrientsBranch, nodes.length, viewport.height, viewport.width]);
 
   useEffect(() => {
     if (cameraMode === 'follow') {
@@ -257,74 +290,153 @@ export function ModuleExplorer({
           </linearGradient>
         </defs>
 
-        {/* Top Zone Banners matching GalaxiesExplorer in big-bang */}
-        <g transform="translate(80, 26)">
-          <rect
-            x="0"
-            y="0"
-            width={splitIdx * 330 - 30}
-            height="28"
-            rx="14"
-            fill="rgba(120, 53, 15, 0.35)"
-            stroke="rgba(245, 158, 11, 0.45)"
-            strokeWidth="1.2"
-          />
-          <text
-            x={(splitIdx * 330 - 30) / 2}
-            y="14"
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill="#FDE68A"
-            fontSize="11"
-            fontWeight="800"
-            letterSpacing="0.8"
-          >
-            DEL 1 • GRUNNLAG &amp; MEKANISMER ({activeTheme.stepWord.toUpperCase()} 1–{splitIdx})
-          </text>
-        </g>
+        {isNutrientsBranch ? (
+          <>
+            {/* Branch header pills for Næringsstoffene */}
+            <g transform="translate(500, -48)">
+              <rect
+                x="0"
+                y="0"
+                width="820"
+                height="30"
+                rx="15"
+                fill="rgba(120, 53, 15, 0.38)"
+                stroke="rgba(245, 158, 11, 0.55)"
+                strokeWidth="1.4"
+              />
+              <text
+                x="410"
+                y="15"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#FDE68A"
+                fontSize="12"
+                fontWeight="800"
+                letterSpacing="0.9"
+              >
+                ENERGIGIVENDE NÆRINGSSTOFFER (KARBOHYDRAT • PROTEIN • FETT)
+              </text>
+            </g>
 
-        <g transform={`translate(${80 + splitIdx * 330}, 26)`}>
-          <rect
-            x="0"
-            y="0"
-            width={(nodes.length - splitIdx) * 330 + 120}
-            height="28"
-            rx="14"
-            fill="rgba(12, 74, 110, 0.35)"
-            stroke="rgba(56, 189, 248, 0.45)"
-            strokeWidth="1.2"
-          />
-          <text
-            x={((nodes.length - splitIdx) * 330 + 120) / 2}
-            y="14"
-            textAnchor="middle"
-            dominantBaseline="central"
-            fill="#BAE6FD"
-            fontSize="11"
-            fontWeight="800"
-            letterSpacing="0.8"
-          >
-            DEL 2 • ANVENDELSE &amp; HELHET ({activeTheme.stepWord.toUpperCase()} {splitIdx + 1}–{nodes.length})
-          </text>
-        </g>
+            <g transform="translate(500, 590)">
+              <rect
+                x="0"
+                y="0"
+                width="540"
+                height="30"
+                rx="15"
+                fill="rgba(12, 74, 110, 0.38)"
+                stroke="rgba(56, 189, 248, 0.55)"
+                strokeWidth="1.4"
+              />
+              <text
+                x="270"
+                y="15"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#BAE6FD"
+                fontSize="12"
+                fontWeight="800"
+                letterSpacing="0.9"
+              >
+                IKKE-ENERGIGIVENDE NÆRINGSSTOFFER (VITAMINER • MINERALER)
+              </text>
+            </g>
 
-        {/* Connecting Wavy Curve */}
-        {nodes.slice(0, -1).map((node, idx) => {
-          const a = coords[idx];
-          const b = coords[idx + 1];
-          const unlocked = idx + 1 <= effectiveMaxStep;
-          return (
-            <path
-              key={`wave-${node.id}`}
-              d={buildWavePath(a, b)}
-              fill="none"
-              stroke={unlocked ? 'url(#waveGrad)' : '#334155'}
-              strokeWidth={unlocked ? 3.5 : 2.5}
-              strokeOpacity={unlocked ? 0.85 : 0.45}
-              strokeDasharray={unlocked ? undefined : '7 7'}
-            />
-          );
-        })}
+            {/* Branching curves: 0->1->2->3 (upper) and 0->4->5 (lower) */}
+            {[
+              { from: 0, to: 1, color: '#F59E0B' },
+              { from: 1, to: 2, color: '#F59E0B' },
+              { from: 2, to: 3, color: '#F59E0B' },
+              { from: 0, to: 4, color: '#38BDF8' },
+              { from: 4, to: 5, color: '#38BDF8' },
+            ].map((edge) => {
+              const unlocked = edge.to <= effectiveMaxStep;
+              return (
+                <path
+                  key={`branch-${edge.from}-${edge.to}`}
+                  d={buildWavePath(coords[edge.from], coords[edge.to])}
+                  fill="none"
+                  stroke={unlocked ? edge.color : '#334155'}
+                  strokeWidth={unlocked ? 4 : 2.5}
+                  strokeOpacity={unlocked ? 0.85 : 0.45}
+                  strokeDasharray={unlocked ? undefined : '7 7'}
+                />
+              );
+            })}
+          </>
+        ) : (
+          <>
+            {/* Top Zone Banners matching GalaxiesExplorer in big-bang */}
+            <g transform="translate(80, 26)">
+              <rect
+                x="0"
+                y="0"
+                width={splitIdx * 330 - 30}
+                height="28"
+                rx="14"
+                fill="rgba(120, 53, 15, 0.35)"
+                stroke="rgba(245, 158, 11, 0.45)"
+                strokeWidth="1.2"
+              />
+              <text
+                x={(splitIdx * 330 - 30) / 2}
+                y="14"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#FDE68A"
+                fontSize="11"
+                fontWeight="800"
+                letterSpacing="0.8"
+              >
+                DEL 1 • GRUNNLAG &amp; MEKANISMER ({activeTheme.stepWord.toUpperCase()} 1–{splitIdx})
+              </text>
+            </g>
+
+            <g transform={`translate(${80 + splitIdx * 330}, 26)`}>
+              <rect
+                x="0"
+                y="0"
+                width={(nodes.length - splitIdx) * 330 + 120}
+                height="28"
+                rx="14"
+                fill="rgba(12, 74, 110, 0.35)"
+                stroke="rgba(56, 189, 248, 0.45)"
+                strokeWidth="1.2"
+              />
+              <text
+                x={((nodes.length - splitIdx) * 330 + 120) / 2}
+                y="14"
+                textAnchor="middle"
+                dominantBaseline="central"
+                fill="#BAE6FD"
+                fontSize="11"
+                fontWeight="800"
+                letterSpacing="0.8"
+              >
+                DEL 2 • ANVENDELSE &amp; HELHET ({activeTheme.stepWord.toUpperCase()} {splitIdx + 1}–{nodes.length})
+              </text>
+            </g>
+
+            {/* Connecting Wavy Curve */}
+            {nodes.slice(0, -1).map((node, idx) => {
+              const a = coords[idx];
+              const b = coords[idx + 1];
+              const unlocked = idx + 1 <= effectiveMaxStep;
+              return (
+                <path
+                  key={`wave-${node.id}`}
+                  d={buildWavePath(a, b)}
+                  fill="none"
+                  stroke={unlocked ? 'url(#waveGrad)' : '#334155'}
+                  strokeWidth={unlocked ? 3.5 : 2.5}
+                  strokeOpacity={unlocked ? 0.85 : 0.45}
+                  strokeDasharray={unlocked ? undefined : '7 7'}
+                />
+              );
+            })}
+          </>
+        )}
 
         {/* Card-on-Curve Nodes matching image_2.png */}
         {nodes.map((node: HealthNodeData, idx: number) => {
