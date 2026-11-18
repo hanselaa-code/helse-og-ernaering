@@ -44,7 +44,7 @@ export function InfoPanel({
         {/* Header badges + Title + Subtitle */}
         <header className="space-y-2.5">
           <div className="flex flex-wrap items-center gap-2">
-            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-emerald-500/20 border border-emerald-400/35 text-emerald-300 text-xs font-bold tracking-wide uppercase">
+            <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md bg-amber-500/20 border border-amber-400/35 text-amber-300 text-xs font-bold tracking-wide uppercase">
               {activeTheme.stepWord} {node.stepNumber} av{' '}
               {activeTheme.mainStepIds.length}
             </span>
@@ -123,8 +123,8 @@ export function InfoPanel({
 
         {/* Main pedagogical summary */}
         <section className="space-y-2">
-          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-emerald-300">
-            <Sparkles className="w-4 h-4 text-emerald-400 shrink-0" />
+          <div className="flex items-center gap-2 text-xs font-bold uppercase tracking-wider text-amber-300">
+            <Sparkles className="w-4 h-4 text-amber-400 shrink-0" />
             <h3>
               {activeTheme.summaryHeadingPrefix} — {node.summaryTitle}
             </h3>
@@ -136,7 +136,7 @@ export function InfoPanel({
 
         {/* Classroom experiment / thought hook */}
         {node.classroomTest && (
-          <section className="p-4 rounded-xl bg-gradient-to-br from-sky-500/15 via-emerald-500/10 to-transparent border border-sky-400/35 space-y-1.5">
+          <section className="p-4 rounded-xl bg-gradient-to-br from-sky-500/15 via-teal-500/10 to-transparent border border-sky-400/35 space-y-1.5">
             <div className="flex items-center gap-2 text-sky-300 text-xs font-bold uppercase tracking-wider">
               <FlaskConical className="w-4 h-4 text-sky-400 shrink-0" />
               <h3>{activeTheme.classroomBoxHeading}</h3>
@@ -156,9 +156,9 @@ export function InfoPanel({
             {node.keyTraits.map((trait) => (
               <div
                 key={trait.title}
-                className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-900/75 border border-slate-700/60 hover:border-emerald-400/35 transition-colors"
+                className="flex items-start gap-3 p-3.5 rounded-xl bg-slate-900/75 border border-slate-700/60 hover:border-amber-400/35 transition-colors"
               >
-                <div className="p-2 rounded-lg bg-emerald-500/15 text-emerald-300 border border-emerald-500/25 shrink-0 mt-0.5">
+                <div className="p-2 rounded-lg bg-amber-500/15 text-amber-300 border border-amber-500/25 shrink-0 mt-0.5">
                   <TraitIcon name={trait.icon} className="w-4 h-4" />
                 </div>
                 <div>

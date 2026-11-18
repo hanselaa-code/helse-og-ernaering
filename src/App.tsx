@@ -241,6 +241,7 @@ export function App() {
       <TopBar
         activeView={activeView}
         activeTheme={activeTheme}
+        currentStepIndex={currentStepIndex}
         showAllSteps={showAllSteps}
         isQuizOpen={isQuizOpen}
         isFullscreen={isFullscreen}
@@ -284,7 +285,6 @@ export function App() {
             onPrevStep={handlePrevStep}
             onNextStep={handleNextStep}
             onJumpToStep={jumpToStep}
-            onToggleShowAll={handleToggleShowAll}
           />
         </>
       )}

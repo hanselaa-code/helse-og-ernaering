@@ -1,7 +1,7 @@
 import { Focus, Maximize2, Minus, Plus } from 'lucide-react';
 import { useCallback, useEffect, useRef, useState } from 'react';
 import { getHealthImage } from '../data/images';
-import type { HealthNodeData, ThemeConfig, ThemeId } from '../data/types';
+import type { HealthNodeData, ThemeConfig } from '../data/types';
 
 interface ModuleExplorerProps {
   activeTheme: ThemeConfig;
@@ -14,64 +14,20 @@ interface ModuleExplorerProps {
 interface NodeCoord {
   x: number;
   y: number;
+  cardSide: 'above' | 'below';
 }
 
-const LAYOUT_COORDS: Record<ThemeId, NodeCoord[]> = {
-  naeringsstoffer: [
-    { x: 220, y: 310 },
-    { x: 470, y: 185 },
-    { x: 740, y: 310 },
-    { x: 1010, y: 185 },
-    { x: 1280, y: 310 },
-    { x: 1550, y: 210 },
-  ],
-  fordoyelsen: [
-    { x: 200, y: 210 },
-    { x: 470, y: 185 },
-    { x: 740, y: 270 },
-    { x: 1010, y: 345 },
-    { x: 1280, y: 235 },
-    { x: 1550, y: 310 },
-  ],
-  celleanding: [
-    { x: 220, y: 280 },
-    { x: 540, y: 195 },
-    { x: 875, y: 295 },
-    { x: 1210, y: 195 },
-    { x: 1530, y: 280 },
-  ],
-  vaeskebalanse: [
-    { x: 220, y: 215 },
-    { x: 540, y: 335 },
-    { x: 875, y: 205 },
-    { x: 1210, y: 325 },
-    { x: 1530, y: 215 },
-  ],
-  trening: [
-    { x: 220, y: 300 },
-    { x: 540, y: 185 },
-    { x: 875, y: 235 },
-    { x: 1210, y: 335 },
-    { x: 1530, y: 215 },
-  ],
-  kosthold: [
-    { x: 200, y: 280 },
-    { x: 470, y: 190 },
-    { x: 740, y: 305 },
-    { x: 1010, y: 190 },
-    { x: 1280, y: 315 },
-    { x: 1550, y: 210 },
-  ],
-  kildekritikk: [
-    { x: 220, y: 335 },
-    { x: 540, y: 245 },
-    { x: 875, y: 165 },
-    { x: 1210, y: 265 },
-    { x: 1530, y: 200 },
-  ],
-};
+function getLayoutCoords(count: number): NodeCoord[] {
+  const stepX = 330;
+  const startX = 240;
+  return Array.from({ length: count }, (_, idx) => ({
+    x: startX + idx * stepX,
+    y: idx % 2 === 0 ? 310 : 240,
+    cardSide: idx % 2 === 0 ? 'above' : 'below',
+  }));
+}
 
-function buildBezierPath(a: NodeCoord, b: NodeCoord): string {
+function buildWavePath(a: NodeCoord, b: NodeCoord): string {
   const dx = b.x - a.x;
   return `M ${a.x} ${a.y} C ${a.x + dx * 0.45} ${a.y}, ${b.x - dx * 0.45} ${b.y}, ${b.x} ${b.y}`;
 }
@@ -85,7 +41,7 @@ export function ModuleExplorer({
 }: ModuleExplorerProps) {
   const containerRef = useRef<HTMLDivElement | null>(null);
   const [viewport, setViewport] = useState({ width: 900, height: 600 });
-  const [camera, setCamera] = useState({ x: 875, y: 265, scale: 0.72 });
+  const [camera, setCamera] = useState({ x: 520, y: 280, scale: 0.88 });
   const [cameraMode, setCameraMode] = useState<'follow' | 'overview' | 'manual'>(
     'follow',
   );
@@ -100,7 +56,7 @@ export function ModuleExplorer({
   } | null>(null);
 
   const nodes = activeTheme.allNodes;
-  const coords = LAYOUT_COORDS[activeTheme.id];
+  const coords = getLayoutCoords(nodes.length);
   const effectiveMaxStep = showAllSteps ? nodes.length - 1 : unlockedStepIndex;
   const themeImgUrl = getHealthImage(`mod_${activeTheme.id}.jpg`);
 
@@ -124,15 +80,15 @@ export function ModuleExplorer({
       const pos = coords[stepIdx] ?? coords[0];
       const prev = coords[Math.max(0, stepIdx - 1)];
       const next = coords[Math.min(coords.length - 1, stepIdx + 1)];
-      const minX = Math.min(pos.x - 240, prev.x - 140);
-      const maxX = Math.max(pos.x + 240, next.x + 140);
-      const spanX = Math.max(560, maxX - minX);
-      const scaleX = (viewport.width * 0.9) / spanX;
-      const scaleY = (viewport.height * 0.82) / 480;
-      const scale = Math.max(0.55, Math.min(1.18, Math.min(scaleX, scaleY)));
+      const minX = Math.min(pos.x - 240, prev.x - 160);
+      const maxX = Math.max(pos.x + 240, next.x + 160);
+      const spanX = Math.max(660, maxX - minX);
+      const scaleX = (viewport.width * 0.92) / spanX;
+      const scaleY = (viewport.height * 0.85) / 520;
+      const scale = Math.max(0.55, Math.min(1.12, Math.min(scaleX, scaleY)));
       return {
         x: pos.x,
-        y: pos.y + 18,
+        y: 280,
         scale,
       };
     },
@@ -140,16 +96,15 @@ export function ModuleExplorer({
   );
 
   const computeOverviewCamera = useCallback(() => {
-    const minX = 60;
-    const maxX = 1690;
-    const scaleX = (viewport.width * 0.94) / (maxX - minX);
-    const scaleY = (viewport.height * 0.86) / 520;
+    const totalW = Math.max(900, (nodes.length - 1) * 330 + 480);
+    const scaleX = (viewport.width * 0.94) / totalW;
+    const scaleY = (viewport.height * 0.86) / 540;
     return {
-      x: 875,
-      y: 270,
-      scale: Math.max(0.35, Math.min(0.95, Math.min(scaleX, scaleY))),
+      x: 240 + ((nodes.length - 1) * 330) / 2,
+      y: 280,
+      scale: Math.max(0.32, Math.min(0.92, Math.min(scaleX, scaleY))),
     };
-  }, [viewport.height, viewport.width]);
+  }, [nodes.length, viewport.height, viewport.width]);
 
   useEffect(() => {
     if (cameraMode === 'follow') {
@@ -171,7 +126,7 @@ export function ModuleExplorer({
     setCameraMode('manual');
     setCamera((prev) => ({
       ...prev,
-      scale: Math.max(0.35, Math.min(1.6, prev.scale * factor)),
+      scale: Math.max(0.32, Math.min(1.5, prev.scale * factor)),
     }));
   };
 
@@ -211,6 +166,8 @@ export function ModuleExplorer({
   const viewHeight = viewport.height / camera.scale;
   const viewBox = `${camera.x - viewWidth / 2} ${camera.y - viewHeight / 2} ${viewWidth} ${viewHeight}`;
 
+  const splitIdx = Math.ceil(nodes.length / 2);
+
   return (
     <div
       ref={containerRef}
@@ -223,18 +180,7 @@ export function ModuleExplorer({
         isDragging ? 'cursor-grabbing' : 'cursor-grab'
       }`}
     >
-      {/* Top-left module badge */}
-      <div className="absolute top-3 left-3 z-10 pointer-events-none flex items-center gap-2 px-3 py-1.5 rounded-xl bg-slate-950/75 border border-slate-700/70 backdrop-blur-md">
-        <span
-          className="w-2.5 h-2.5 rounded-full"
-          style={{ backgroundColor: activeTheme.accentHex }}
-        />
-        <span className="text-xs font-bold text-white font-display">
-          {activeTheme.dropdownTitle}
-        </span>
-      </div>
-
-      {/* Top-right Camera Controls (matching BigBangTimeline) */}
+      {/* Top-right Camera Controls matching big-bang */}
       <div className="absolute top-3 right-3 z-10 flex items-center gap-1.5">
         <button
           type="button"
@@ -242,7 +188,7 @@ export function ModuleExplorer({
           title="Sentrer kamera på aktivt steg"
           className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
             cameraMode === 'follow'
-              ? 'bg-emerald-500/25 border-emerald-400/60 text-emerald-100'
+              ? 'bg-amber-500/20 border-amber-400/60 text-amber-200'
               : 'bg-slate-950/80 hover:bg-slate-900 border-slate-700 text-slate-300'
           }`}
         >
@@ -253,10 +199,10 @@ export function ModuleExplorer({
         <button
           type="button"
           onClick={() => setCameraMode('overview')}
-          title="Vis hele tidslinjen / oversikten"
+          title="Vis hele oversikten"
           className={`inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-xl text-xs font-bold border transition-all cursor-pointer ${
             cameraMode === 'overview'
-              ? 'bg-sky-500/25 border-sky-400/60 text-sky-100'
+              ? 'bg-sky-500/20 border-sky-400/60 text-sky-200'
               : 'bg-slate-950/80 hover:bg-slate-900 border-slate-700 text-slate-300'
           }`}
         >
@@ -271,7 +217,7 @@ export function ModuleExplorer({
               setCameraMode('manual');
               setCamera((p) => ({
                 ...p,
-                scale: Math.max(0.35, p.scale * 0.85),
+                scale: Math.max(0.32, p.scale * 0.85),
               }));
             }}
             className="p-1.5 text-slate-300 hover:text-white hover:bg-slate-800 cursor-pointer"
@@ -285,7 +231,7 @@ export function ModuleExplorer({
               setCameraMode('manual');
               setCamera((p) => ({
                 ...p,
-                scale: Math.min(1.6, p.scale * 1.18),
+                scale: Math.min(1.5, p.scale * 1.18),
               }));
             }}
             className="p-1.5 text-slate-300 hover:text-white hover:bg-slate-800 border-l border-slate-700 cursor-pointer"
@@ -304,188 +250,183 @@ export function ModuleExplorer({
         aria-label={activeTheme.title}
       >
         <defs>
-          <radialGradient id="modAmbient" cx="50%" cy="50%" r="50%">
-            <stop offset="0%" stopColor={activeTheme.accentHex} stopOpacity="0.16" />
-            <stop offset="100%" stopColor="#07111A" stopOpacity="0" />
-          </radialGradient>
-
-          <clipPath id="clip-step-thumb">
-            <circle cx="0" cy="0" r="48" />
-          </clipPath>
+          <linearGradient id="waveGrad" x1="0%" y1="0%" x2="100%" y2="0%">
+            <stop offset="0%" stopColor="#F59E0B" />
+            <stop offset="55%" stopColor="#38BDF8" />
+            <stop offset="100%" stopColor="#10B981" />
+          </linearGradient>
         </defs>
 
-        {/* Subtle ambient backdrop ellipse */}
-        <ellipse cx="875" cy="265" rx="820" ry="230" fill="url(#modAmbient)" />
+        {/* Top Zone Banners matching GalaxiesExplorer in big-bang */}
+        <g transform="translate(80, 26)">
+          <rect
+            x="0"
+            y="0"
+            width={splitIdx * 330 - 30}
+            height="28"
+            rx="14"
+            fill="rgba(120, 53, 15, 0.35)"
+            stroke="rgba(245, 158, 11, 0.45)"
+            strokeWidth="1.2"
+          />
+          <text
+            x={(splitIdx * 330 - 30) / 2}
+            y="14"
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill="#FDE68A"
+            fontSize="11"
+            fontWeight="800"
+            letterSpacing="0.8"
+          >
+            DEL 1 • GRUNNLAG &amp; MEKANISMER ({activeTheme.stepWord.toUpperCase()} 1–{splitIdx})
+          </text>
+        </g>
 
-        {/* Scale track along bottom */}
-        <line
-          x1="120"
-          y1="455"
-          x2="1630"
-          y2="455"
-          stroke="rgba(148,163,184,0.22)"
-          strokeWidth="2"
-        />
+        <g transform={`translate(${80 + splitIdx * 330}, 26)`}>
+          <rect
+            x="0"
+            y="0"
+            width={(nodes.length - splitIdx) * 330 + 120}
+            height="28"
+            rx="14"
+            fill="rgba(12, 74, 110, 0.35)"
+            stroke="rgba(56, 189, 248, 0.45)"
+            strokeWidth="1.2"
+          />
+          <text
+            x={((nodes.length - splitIdx) * 330 + 120) / 2}
+            y="14"
+            textAnchor="middle"
+            dominantBaseline="central"
+            fill="#BAE6FD"
+            fontSize="11"
+            fontWeight="800"
+            letterSpacing="0.8"
+          >
+            DEL 2 • ANVENDELSE &amp; HELHET ({activeTheme.stepWord.toUpperCase()} {splitIdx + 1}–{nodes.length})
+          </text>
+        </g>
 
-        {/* Connecting Bezier segments */}
+        {/* Connecting Wavy Curve */}
         {nodes.slice(0, -1).map((node, idx) => {
           const a = coords[idx];
           const b = coords[idx + 1];
           const unlocked = idx + 1 <= effectiveMaxStep;
           return (
             <path
-              key={`seg-${node.id}`}
-              d={buildBezierPath(a, b)}
+              key={`wave-${node.id}`}
+              d={buildWavePath(a, b)}
               fill="none"
-              stroke={unlocked ? node.accentColor : '#334155'}
-              strokeWidth={unlocked ? 4.5 : 3}
-              strokeOpacity={unlocked ? 0.78 : 0.45}
-              strokeDasharray={unlocked ? undefined : '8 8'}
-              strokeLinecap="round"
+              stroke={unlocked ? 'url(#waveGrad)' : '#334155'}
+              strokeWidth={unlocked ? 3.5 : 2.5}
+              strokeOpacity={unlocked ? 0.85 : 0.45}
+              strokeDasharray={unlocked ? undefined : '7 7'}
             />
           );
         })}
 
-        {/* Circular Nano Banana Step Nodes */}
+        {/* Card-on-Curve Nodes matching image_2.png */}
         {nodes.map((node: HealthNodeData, idx: number) => {
           const pos = coords[idx];
           const isCurrent = idx === currentStepIndex;
           const isUnlocked = idx <= effectiveMaxStep;
           const imgHref = node.image ?? themeImgUrl;
+          const cardOffsetY = pos.cardSide === 'above' ? -185 : 32;
 
           return (
-            <g key={node.id}>
-              {/* Bottom scale tick */}
+            <g
+              key={node.id}
+              onClick={(e) => {
+                e.stopPropagation();
+                onSelectStep(idx);
+              }}
+              className="cursor-pointer"
+              style={{ opacity: isUnlocked ? 1 : 0.42 }}
+            >
+              {/* Vertical stem connecting curve circle to card */}
               <line
                 x1={pos.x}
-                y1="448"
+                y1={pos.y}
                 x2={pos.x}
-                y2="462"
-                stroke={isCurrent ? node.accentColor : '#64748B'}
-                strokeWidth={isCurrent ? 3 : 2}
+                y2={pos.cardSide === 'above' ? pos.y - 34 : pos.y + 34}
+                stroke={isCurrent ? '#FBBF24' : '#38BDF8'}
+                strokeWidth="2"
+                strokeOpacity="0.65"
               />
-              <text
-                x={pos.x}
-                y="482"
-                textAnchor="middle"
-                fill={isCurrent ? '#F8FAFC' : '#94A3B8'}
-                fontSize="13"
-                fontWeight={isCurrent ? '800' : '600'}
-              >
-                {node.eraLabel}
-              </text>
 
-              <g
-                transform={`translate(${pos.x}, ${pos.y})`}
-                onClick={(e) => {
-                  e.stopPropagation();
-                  onSelectStep(idx);
-                }}
-                className="cursor-pointer"
-                style={{ opacity: isUnlocked ? 1 : 0.42 }}
-              >
-                {/* Pulse ring on active node */}
+              {/* Rich 16:9 Image Card matching image_2.png */}
+              <g transform={`translate(${pos.x - 115}, ${pos.y + cardOffsetY})`}>
+                <rect
+                  x="0"
+                  y="0"
+                  width="230"
+                  height="156"
+                  rx="14"
+                  fill={isCurrent ? '#0F1C33' : '#0A1324'}
+                  stroke={isCurrent ? '#FBBF24' : '#38BDF8'}
+                  strokeOpacity={isCurrent ? 0.95 : 0.45}
+                  strokeWidth={isCurrent ? 2.5 : 1.5}
+                />
+                <foreignObject x="6" y="6" width="218" height="144">
+                  <div className="w-full h-full flex flex-col justify-between">
+                    <div className="relative w-full h-[94px] rounded-lg overflow-hidden bg-slate-950 border border-slate-800">
+                      <img
+                        src={imgHref}
+                        alt={node.title}
+                        className="w-full h-full object-cover"
+                      />
+                      <span className="absolute top-1.5 left-1.5 px-1.5 py-0.5 rounded bg-slate-950/85 border border-slate-700 text-[9px] font-mono-time text-sky-200 truncate max-w-[195px]">
+                        {node.primaryBadge}
+                      </span>
+                    </div>
+
+                    <div className="px-1 pt-1 text-center">
+                      <div className="text-[11.5px] font-extrabold text-white truncate font-display">
+                        {node.shortLabel}
+                      </div>
+                      <div
+                        className={`mt-0.5 inline-block px-2 py-0.5 rounded-full text-[9px] font-bold truncate max-w-full ${
+                          isCurrent
+                            ? 'bg-amber-500/20 text-amber-200 border border-amber-400/40'
+                            : 'bg-sky-500/15 text-sky-200 border border-sky-400/30'
+                        }`}
+                      >
+                        {node.eraLabel} • {node.secondaryBadge}
+                      </div>
+                    </div>
+                  </div>
+                </foreignObject>
+              </g>
+
+              {/* Numbered circle sitting on the curve */}
+              <g transform={`translate(${pos.x}, ${pos.y})`}>
                 {isCurrent && (
                   <circle
-                    r="62"
+                    r="24"
                     fill="none"
-                    stroke={node.accentColor}
+                    stroke="#FBBF24"
                     strokeWidth="2.5"
                     className="node-pulse-ring"
                   />
                 )}
-
-                {/* Outer halo */}
                 <circle
-                  r={isCurrent ? 55 : 51}
-                  fill="none"
-                  stroke={isCurrent ? '#FDE68A' : node.accentColor}
-                  strokeOpacity={isCurrent ? 0.85 : 0.4}
-                  strokeWidth={isCurrent ? 3 : 1.5}
-                />
-
-                {/* Clipped Nano Banana illustration */}
-                <g clipPath="url(#clip-step-thumb)">
-                  <circle r="48" fill="#0B1726" />
-                  <image
-                    href={imgHref}
-                    x="-54"
-                    y="-54"
-                    width="108"
-                    height="108"
-                    preserveAspectRatio="xMidYMid slice"
-                  />
-                  <circle
-                    r="48"
-                    fill="rgba(7, 17, 26, 0.46)"
-                  />
-                </g>
-
-                {/* Crisp circle border */}
-                <circle
-                  r="48"
-                  fill="none"
-                  stroke={isCurrent ? '#FBBF24' : node.accentColor}
-                  strokeWidth={isCurrent ? 4 : 2.5}
-                />
-
-                {/* Step number badge */}
-                <circle
-                  cx="0"
-                  cy="-46"
-                  r="14"
+                  r="17"
                   fill={isCurrent ? '#F59E0B' : '#0F172A'}
-                  stroke={isCurrent ? '#FDE68A' : node.accentColor}
-                  strokeWidth="2"
+                  stroke={isCurrent ? '#FDE68A' : '#38BDF8'}
+                  strokeWidth={isCurrent ? 3 : 2}
                 />
                 <text
                   x="0"
-                  y="-46"
+                  y="0.5"
                   textAnchor="middle"
                   dominantBaseline="central"
-                  fill={isCurrent ? '#07111A' : '#F8FAFC'}
-                  fontSize="12"
+                  fill={isCurrent ? '#080D1A' : '#E0F2FE'}
+                  fontSize="13"
                   fontWeight="800"
                 >
                   {node.stepNumber}
                 </text>
-
-                {/* Title pill below circle */}
-                <g transform="translate(0, 72)">
-                  <rect
-                    x="-92"
-                    y="-17"
-                    width="184"
-                    height="34"
-                    rx="11"
-                    fill={isCurrent ? '#12263B' : 'rgba(9, 17, 29, 0.92)'}
-                    stroke={isCurrent ? '#FBBF24' : node.accentColor}
-                    strokeWidth={isCurrent ? 2 : 1.2}
-                  />
-                  <text
-                    x="0"
-                    y="-2"
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fill="#F8FAFC"
-                    fontSize="12.5"
-                    fontWeight="800"
-                    className="font-display"
-                  >
-                    {node.shortLabel}
-                  </text>
-                  <text
-                    x="0"
-                    y="11"
-                    textAnchor="middle"
-                    dominantBaseline="central"
-                    fill={node.accentColor}
-                    fontSize="9.5"
-                    fontWeight="700"
-                  >
-                    {node.primaryBadge}
-                  </text>
-                </g>
               </g>
             </g>
           );
@@ -493,7 +434,7 @@ export function ModuleExplorer({
       </svg>
 
       {/* Bottom hint */}
-      <div className="absolute bottom-2.5 left-3 z-10 pointer-events-none text-[11px] text-slate-400 bg-slate-950/70 px-2.5 py-1 rounded-lg border border-slate-800">
+      <div className="absolute bottom-2.5 left-3 z-10 pointer-events-none text-[11px] text-slate-400 bg-slate-950/75 px-2.5 py-1 rounded-lg border border-slate-800">
         Dra for å panorere • Scroll for å zoome • Klikk på et steg
       </div>
     </div>

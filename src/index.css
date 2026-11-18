@@ -2,20 +2,19 @@
 
 @layer base {
   :root {
-    --bg-primary: #07111A;
-    --bg-elevated: #0E1B2A;
-    --bg-card: rgba(14, 27, 42, 0.84);
-    --accent-emerald: #10B981;
-    --accent-coral: #F43F5E;
+    --bg-primary: #080D1A;
+    --bg-elevated: #0F172A;
+    --bg-card: rgba(15, 23, 42, 0.82);
     --accent-amber: #F59E0B;
     --accent-cyan: #38BDF8;
+    --accent-emerald: #10B981;
   }
 
   html,
   body,
   #root {
     height: 100%;
-    background-color: #07111A;
+    background-color: #080D1A;
     color: #F8FAFC;
     font-family: 'Inter', system-ui, -apple-system, sans-serif;
   }
@@ -34,17 +33,17 @@
   }
 }
 
-/* Deep biological/health classroom backdrop */
+/* Deep observatory backdrop matching big-bang */
 .health-canvas {
   background:
-    radial-gradient(ellipse 75% 58% at 15% 18%, rgba(16, 185, 129, 0.09), transparent 65%),
-    radial-gradient(ellipse 70% 55% at 85% 78%, rgba(56, 189, 248, 0.075), transparent 65%),
-    radial-gradient(ellipse 55% 45% at 50% 92%, rgba(244, 63, 94, 0.055), transparent 65%),
-    linear-gradient(180deg, #050D14 0%, #07111A 52%, #0B1824 100%);
+    radial-gradient(ellipse 75% 58% at 16% 20%, rgba(245, 158, 11, 0.085), transparent 65%),
+    radial-gradient(ellipse 70% 55% at 82% 80%, rgba(56, 189, 248, 0.075), transparent 65%),
+    radial-gradient(ellipse 55% 45% at 52% 92%, rgba(16, 185, 129, 0.055), transparent 65%),
+    linear-gradient(180deg, #060A14 0%, #080D1A 52%, #0B1324 100%);
 }
 
 .glass-panel {
-  background: linear-gradient(165deg, rgba(16, 30, 48, 0.88) 0%, rgba(9, 17, 29, 0.94) 100%);
+  background: linear-gradient(165deg, rgba(18, 28, 49, 0.88) 0%, rgba(10, 16, 30, 0.94) 100%);
   backdrop-filter: blur(18px);
   -webkit-backdrop-filter: blur(18px);
   border: 1px solid rgba(148, 163, 184, 0.15);
@@ -54,7 +53,7 @@
 }
 
 .glass-subtle {
-  background: rgba(14, 27, 42, 0.74);
+  background: rgba(15, 23, 42, 0.72);
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
   border: 1px solid rgba(148, 163, 184, 0.14);
@@ -66,7 +65,7 @@
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: rgba(7, 17, 26, 0.45);
+  background: rgba(8, 13, 26, 0.45);
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
