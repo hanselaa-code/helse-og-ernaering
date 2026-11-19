@@ -1,5 +1,6 @@
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, HelpCircle, ListChecks } from 'lucide-react';
 import type { ThemeConfig } from '../data/types';
+import type { ClosingSlideMode } from './FullscreenClosingSlide';
 
 interface TimelineDockProps {
   activeTheme: ThemeConfig;
@@ -7,9 +8,11 @@ interface TimelineDockProps {
   unlockedStepIndex: number;
   showAllSteps: boolean;
   isFullscreen?: boolean;
+  closingSlide?: ClosingSlideMode | null;
   onPrevStep: () => void;
   onNextStep: () => void;
   onJumpToStep: (idx: number) => void;
+  onSelectClosingSlide?: (slide: ClosingSlideMode) => void;
 }
 
 export function TimelineDock({
@@ -18,11 +21,18 @@ export function TimelineDock({
   unlockedStepIndex,
   showAllSteps,
   isFullscreen = false,
+  closingSlide = null,
   onPrevStep,
   onNextStep,
   onJumpToStep,
+  onSelectClosingSlide,
 }: TimelineDockProps) {
   const total = activeTheme.mainStepIds.length;
+  const isFirst = currentStepIndex === 0 && closingSlide === null;
+  const isLastStep = currentStepIndex >= total - 1;
+  const isNextDisabled = isFullscreen
+    ? closingSlide === 'questions'
+    : isLastStep;
 
   return (
     <footer
@@ -38,7 +48,7 @@ export function TimelineDock({
           id="btn-prev-step"
           type="button"
           onClick={onPrevStep}
-          disabled={currentStepIndex === 0}
+          disabled={isFirst}
           className={`inline-flex items-center gap-1.5 px-3 rounded-xl bg-slate-900/80 hover:bg-slate-800 disabled:opacity-40 disabled:cursor-not-allowed border border-slate-700/80 text-xs sm:text-sm font-semibold text-slate-200 transition-all cursor-pointer shrink-0 ${
             isFullscreen ? 'py-1.5' : 'py-2'
           }`}
@@ -48,10 +58,10 @@ export function TimelineDock({
         </button>
 
         {/* 2-line step pills matching big-bang */}
-        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto custom-scrollbar py-0.5 flex-1">
+        <div className="flex items-center gap-1.5 sm:gap-2 overflow-x-auto custom-scrollbar py-0.5 flex-1 min-w-0">
           {activeTheme.mainStepIds.map((id, idx) => {
             const node = activeTheme.nodeMap[id];
-            const isCurrent = idx === currentStepIndex;
+            const isCurrent = closingSlide === null && idx === currentStepIndex;
             const isUnlocked = showAllSteps || idx <= unlockedStepIndex;
 
             return (
@@ -94,20 +104,81 @@ export function TimelineDock({
               </button>
             );
           })}
+
+          {isFullscreen && onSelectClosingSlide && (
+            <>
+              <button
+                type="button"
+                onClick={() => onSelectClosingSlide('summary')}
+                title="Kort oppsummering"
+                className={`flex flex-col items-start px-2.5 py-1 rounded-xl border text-left transition-all cursor-pointer shrink-0 ${
+                  closingSlide === 'summary'
+                    ? 'bg-amber-500/15 border-amber-400/70 shadow-[0_0_18px_rgba(245,158,11,0.18)]'
+                    : 'bg-slate-900/85 hover:bg-slate-800/90 border-slate-700/80'
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <ListChecks className="w-3.5 h-3.5 text-amber-300 shrink-0" />
+                  <span className="text-xs font-bold text-slate-100">
+                    Oppsummering
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono-time text-slate-400 pl-5 mt-0.5">
+                  Oversikt
+                </span>
+              </button>
+
+              <button
+                type="button"
+                onClick={() => onSelectClosingSlide('questions')}
+                title="Spørsmål og fundering"
+                className={`flex flex-col items-start px-2.5 py-1 rounded-xl border text-left transition-all cursor-pointer shrink-0 ${
+                  closingSlide === 'questions'
+                    ? 'bg-emerald-500/15 border-emerald-400/70 shadow-[0_0_18px_rgba(16,185,129,0.18)]'
+                    : 'bg-slate-900/85 hover:bg-slate-800/90 border-slate-700/80'
+                }`}
+              >
+                <div className="flex items-center gap-1.5">
+                  <HelpCircle className="w-3.5 h-3.5 text-emerald-300 shrink-0" />
+                  <span className="text-xs font-bold text-slate-100">
+                    Spørsmål
+                  </span>
+                </div>
+                <span className="text-[10px] font-mono-time text-slate-400 pl-5 mt-0.5">
+                  Tenk–par–del
+                </span>
+              </button>
+            </>
+          )}
         </div>
 
-        {/* Bright Amber Next Step Button matching big-bang */}
+        {/* Bright Amber Next Step / Closing Slide Button */}
         <button
           id="btn-next-step"
           type="button"
           onClick={onNextStep}
-          disabled={currentStepIndex >= total - 1}
+          disabled={isNextDisabled}
           className={`inline-flex items-center gap-1.5 px-4 rounded-xl bg-amber-500 hover:bg-amber-400 disabled:opacity-40 disabled:cursor-not-allowed text-xs sm:text-sm font-extrabold text-slate-950 shadow-[0_0_20px_rgba(245,158,11,0.3)] transition-all cursor-pointer shrink-0 ${
             isFullscreen ? 'py-1.5' : 'py-2.5'
           }`}
         >
-          <span className="hidden sm:inline">Neste steg</span>
-          <span className="sm:hidden">Neste</span>
+          {isFullscreen && closingSlide === null && isLastStep ? (
+            <>
+              <ListChecks className="w-4 h-4" />
+              <span className="hidden sm:inline">Oppsummering</span>
+              <span className="sm:hidden">Oppsumm.</span>
+            </>
+          ) : isFullscreen && closingSlide === 'summary' ? (
+            <>
+              <HelpCircle className="w-4 h-4" />
+              <span>Spørsmål</span>
+            </>
+          ) : (
+            <>
+              <span className="hidden sm:inline">Neste steg</span>
+              <span className="sm:hidden">Neste</span>
+            </>
+          )}
           <ChevronRight className="w-4 h-4" />
         </button>
       </div>
