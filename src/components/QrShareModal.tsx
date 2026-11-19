@@ -1,21 +1,56 @@
 import { Check, Copy, QrCode, X } from 'lucide-react';
 import QRCode from 'qrcode';
 import { useEffect, useState } from 'react';
+import type { AppView, ThemeConfig } from '../data/types';
+
+const CANONICAL_FALLBACK_URL =
+  'https://hanselaa-code.github.io/helse-og-ernaering/';
 
 interface QrShareModalProps {
+  activeView: AppView;
+  activeTheme: ThemeConfig;
   isOpen: boolean;
   onClose: () => void;
 }
 
-export function QrShareModal({ isOpen, onClose }: QrShareModalProps) {
+function buildShareUrl(activeView: AppView, activeTheme: ThemeConfig): string {
+  const isPublicWeb =
+    typeof window !== 'undefined' &&
+    (window.location.protocol === 'http:' ||
+      window.location.protocol === 'https:') &&
+    window.location.hostname !== 'localhost' &&
+    window.location.hostname !== '127.0.0.1' &&
+    window.location.hostname !== '[::1]' &&
+    window.location.hostname !== '::1';
+
+  const baseUrl = isPublicWeb
+    ? `${window.location.origin}${window.location.pathname}`
+    : CANONICAL_FALLBACK_URL;
+  const targetHash = activeView === 'oversikt' ? '' : activeTheme.hash;
+
+  return `${baseUrl}${targetHash}`;
+}
+
+export function QrShareModal({
+  activeView,
+  activeTheme,
+  isOpen,
+  onClose,
+}: QrShareModalProps) {
   const [qrDataUrl, setQrDataUrl] = useState<string>('');
   const [copied, setCopied] = useState(false);
-  const currentUrl =
-    typeof window !== 'undefined' ? window.location.href : '';
+
+  const isOverview = activeView === 'oversikt';
+  const shareUrl = buildShareUrl(activeView, activeTheme);
+  const pageBadge = isOverview ? 'Temastartside' : 'Undertema';
+  const pageTitle = isOverview
+    ? 'Helse og ernæring – Oversikt'
+    : activeTheme.title;
 
   useEffect(() => {
-    if (!isOpen || !currentUrl) return;
-    QRCode.toDataURL(currentUrl, {
+    if (!isOpen || !shareUrl) return;
+    let cancelled = false;
+    QRCode.toDataURL(shareUrl, {
       width: 280,
       margin: 2,
       color: {
@@ -23,15 +58,22 @@ export function QrShareModal({ isOpen, onClose }: QrShareModalProps) {
         light: '#F8FAFC',
       },
     })
-      .then((url) => setQrDataUrl(url))
-      .catch(() => setQrDataUrl(''));
-  }, [isOpen, currentUrl]);
+      .then((url) => {
+        if (!cancelled) setQrDataUrl(url);
+      })
+      .catch(() => {
+        if (!cancelled) setQrDataUrl('');
+      });
+    return () => {
+      cancelled = true;
+    };
+  }, [isOpen, shareUrl]);
 
   if (!isOpen) return null;
 
   const handleCopy = async () => {
     try {
-      await navigator.clipboard.writeText(currentUrl);
+      await navigator.clipboard.writeText(shareUrl);
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     } catch {
@@ -71,11 +113,26 @@ export function QrShareModal({ isOpen, onClose }: QrShareModalProps) {
           </button>
         </div>
 
+        <div className="rounded-xl bg-slate-900/80 border border-slate-700/80 px-3.5 py-2.5 space-y-1">
+          <span
+            className={`inline-flex items-center px-2 py-0.5 rounded-full text-[11px] font-bold uppercase tracking-wider border ${
+              isOverview
+                ? 'bg-emerald-500/15 border-emerald-400/35 text-emerald-300'
+                : 'bg-sky-500/15 border-sky-400/35 text-sky-300'
+            }`}
+          >
+            {pageBadge}
+          </span>
+          <p className="text-sm font-bold text-slate-100 leading-snug">
+            {pageTitle}
+          </p>
+        </div>
+
         <div className="flex justify-center">
           {qrDataUrl ? (
             <img
               src={qrDataUrl}
-              alt="QR-kode til presentasjonen"
+              alt={`QR-kode til ${pageTitle}`}
               className="w-56 h-56 rounded-2xl border-4 border-white shadow-xl"
             />
           ) : (
@@ -89,7 +146,8 @@ export function QrShareModal({ isOpen, onClose }: QrShareModalProps) {
           <input
             type="text"
             readOnly
-            value={currentUrl}
+            value={shareUrl}
+            aria-label="Delingslenke"
             className="flex-1 px-3 py-2 rounded-xl bg-slate-950/80 border border-slate-700 text-xs text-slate-300 font-mono-time truncate"
           />
           <button

@@ -123,6 +123,7 @@ export function App() {
       }
       setClosingSlide(null);
       setIsQuizOpen(false);
+      setIsQrOpen(false);
       setLightboxNode(null);
     };
     window.addEventListener('hashchange', syncFromUrl);
@@ -470,7 +471,12 @@ export function App() {
         onJumpToStep={jumpToStep}
       />
 
-      <QrShareModal isOpen={isQrOpen} onClose={() => setIsQrOpen(false)} />
+      <QrShareModal
+        activeView={activeView}
+        activeTheme={activeTheme}
+        isOpen={isQrOpen}
+        onClose={() => setIsQrOpen(false)}
+      />
 
       <ImageLightbox
         node={lightboxNode}
