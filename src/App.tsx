@@ -258,7 +258,13 @@ export function App() {
         <HealthMindMap onSelectTheme={(id) => handleSelectView(id)} />
       ) : (
         <>
-          <main className="flex-1 min-h-0 px-3 sm:px-4 lg:px-6 py-3 grid grid-cols-1 lg:grid-cols-12 gap-3 lg:gap-4">
+          <main
+            className={`flex-1 min-h-0 grid grid-cols-1 lg:grid-cols-12 ${
+              isFullscreen
+                ? 'px-2.5 sm:px-3 py-2 gap-2.5'
+                : 'px-3 sm:px-4 lg:px-6 py-3 gap-3 lg:gap-4'
+            }`}
+          >
             <div className="lg:col-span-6 xl:col-span-7 min-h-[340px] lg:min-h-0">
               {activeTheme.id === 'fordoyelsen' ? (
                 <DigestiveBodyExplorer
@@ -283,6 +289,7 @@ export function App() {
               <InfoPanel
                 activeTheme={activeTheme}
                 node={activeNode}
+                isFullscreen={isFullscreen}
                 onOpenLightbox={setLightboxNode}
               />
             </div>
@@ -293,6 +300,7 @@ export function App() {
             currentStepIndex={currentStepIndex}
             unlockedStepIndex={unlockedStepIndex}
             showAllSteps={showAllSteps}
+            isFullscreen={isFullscreen}
             onPrevStep={handlePrevStep}
             onNextStep={handleNextStep}
             onJumpToStep={jumpToStep}
